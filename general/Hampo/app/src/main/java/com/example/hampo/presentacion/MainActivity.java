@@ -1,4 +1,4 @@
-package com.example.hampo;
+package com.example.hampo.presentacion;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,11 +10,16 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.hampo.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    MediaPlayer mp;
 
 
     @Override
@@ -34,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+
+        //Musica
+        mp = MediaPlayer.create(this, R.raw.audio);
+        mp.start();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+
+
     }
 
     @Override
@@ -57,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -79,5 +96,35 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
     }
+
+    @Override protected void onStart(){
+        super.onStart();
+    }
+    @Override protected void onResume() {
+        super.onResume();
+        mp.start();
+    }
+    @Override protected void onPause() {
+        super.onPause();
+    }
+    @Override protected void onStop() {
+        mp.pause();
+        super.onStop();
+    }
+    @Override protected void onRestart() {
+        super.onRestart();
+    }
+    @Override protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    public void mostrarPreferencias(){
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        String s = "música: " + pref.getBoolean("musica",true)
+                +", gráficos: " + pref.getString("idioma","?");
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
 
 }

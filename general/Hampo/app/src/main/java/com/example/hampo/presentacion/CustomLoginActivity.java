@@ -1,4 +1,4 @@
-package com.example.hampo;
+package com.example.hampo.presentacion;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hampo.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;

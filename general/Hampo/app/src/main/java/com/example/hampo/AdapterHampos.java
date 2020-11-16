@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hampo.modelo.Hampo;
+
 import java.util.ArrayList;
 
 public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolderHampos> {
@@ -29,10 +31,10 @@ public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolderHampos holder, int position) {
         holder.nombre.setText(listHampos.get(position).getNombre());
-        holder.foto.setImageResource(listHampos.get(position).getImagenId());
+       // holder.foto.setImageResource(listHampos.get(position).getImagenId());
         holder.comida.setText(listHampos.get(position).getComida());
         holder.bebida.setText(listHampos.get(position).getBebida());
-        holder.temperatura.setText(listHampos.get(position).getTemperatura());
+        //holder.temperatura.setText(listHampos.get(position).getTemperatura());
     }
 
 
@@ -42,7 +44,7 @@ public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolder
         return listHampos.size();
     }
 
-    public class ViewHolderHampos extends RecyclerView.ViewHolder {
+    public static class ViewHolderHampos extends RecyclerView.ViewHolder {
 
         TextView nombre, comida, bebida, temperatura;
         ImageView foto;

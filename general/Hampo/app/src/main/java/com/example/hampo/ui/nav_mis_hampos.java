@@ -10,9 +10,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hampo.AdapterHampos;
-import com.example.hampo.Hampo;
+import com.example.hampo.AdapterHamposFirestoreUI;
+import com.example.hampo.casos_uso.CasosUsoHampo;
+import com.example.hampo.datos.HamposAsinc;
+import com.example.hampo.modelo.Hampo;
 import com.example.hampo.R;
 import com.example.hampo.SpacesItemDecoration;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 
 import java.util.ArrayList;
@@ -22,47 +28,28 @@ public class nav_mis_hampos extends Fragment {
 
     private RecyclerView recyclerView;
     ArrayList<Hampo> listHampos;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static AdapterHamposFirestoreUI adaptador;
+    private HamposAsinc hampos;
+    private CasosUsoHampo usoHampo;
 
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public nav_mis_hampos() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment nav_mis_hampos.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static nav_mis_hampos newInstance(String param1, String param2) {
-        nav_mis_hampos fragment = new nav_mis_hampos();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        Query query = FirebaseFirestore.getInstance()
+                .collection("lugares")
+                .limit(50);
+        FirestoreRecyclerOptions<Hampo> opciones = new FirestoreRecyclerOptions
+                .Builder<Hampo>().setQuery(query, Hampo.class).build();
+        adaptador = new AdapterHamposFirestoreUI(opciones, this.getContext());
+
+
     }
 
     @Override
@@ -74,18 +61,36 @@ public class nav_mis_hampos extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
 
         llenarLista();
-        AdapterHampos adapter = new AdapterHampos(listHampos);
-        recyclerView.setAdapter(adapter);
+
+        recyclerView.setAdapter(adaptador);
+        adaptador.startListening();
+
+        //asignas escuchador para cada sitio y visualizar el sitio que aprietes
+        adaptador.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = recyclerView.getChildAdapterPosition(v);
+                //usoHampo.mostrar(pos);
+            }
+        });
 
         return vista;
     }
 
+    @Override public void onActivityCreated(Bundle state) {
+        super.onActivityCreated(state);
+        adaptador.startListening();
+    }
+    @Override public void onDestroy() {
+        super.onDestroy();
+        adaptador.stopListening();
+    }
 
     private void llenarLista() {
+
+        db.collection("hampos");
         listHampos.add(new Hampo("Crear Hampo", R.drawable.ic_add_hampo, "", "",""));
-        listHampos.add(new Hampo("Remi", R.drawable.foto_remi,"🍖: 75%", "💧: 90%","🌡: 22ºC"));
-        listHampos.add(new Hampo("Remo", R.drawable.foto_remo,"🍖: 80%", "💧: 80%","🌡: 20ºC"));
-        listHampos.add(new Hampo("Remulo", R.drawable.foto_remulo,"🍖: 48%", "💧: 46%","🌡: 24ºC"));
+
     }
 
 }
