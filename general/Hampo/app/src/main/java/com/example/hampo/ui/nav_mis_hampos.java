@@ -17,6 +17,7 @@ import com.example.hampo.modelo.Hampo;
 import com.example.hampo.R;
 import com.example.hampo.SpacesItemDecoration;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -81,11 +82,9 @@ public class nav_mis_hampos extends Fragment {
 
     private void llenarLista() {
 
-       /*ACABAR ESTO
-        db.collection("hampos").document("");
+        CollectionReference hampos = db.collection("hampos");
 
-        listHampos.add(new Hampo("Crear Hampo", R.drawable.ic_add_hampo, "", "",""));
-        */
+        // seleccionar hampos que tienen la uid del usuario
     }
 
 }
