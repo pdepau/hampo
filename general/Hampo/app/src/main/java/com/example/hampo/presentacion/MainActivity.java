@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //Musica
-        mp = MediaPlayer.create(this, R.raw.audio);
-        mp.start();
+        /*mp = MediaPlayer.create(this, R.raw.audio);
+        mp.start();*/
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,13 +102,13 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override protected void onResume() {
         super.onResume();
-        mp.start();
+       /* mp.start();*/
     }
     @Override protected void onPause() {
         super.onPause();
     }
     @Override protected void onStop() {
-        mp.pause();
+        /*mp.pause();*/
         super.onStop();
     }
     @Override protected void onRestart() {

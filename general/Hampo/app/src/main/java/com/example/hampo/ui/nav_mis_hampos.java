@@ -42,13 +42,6 @@ public class nav_mis_hampos extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Query query = FirebaseFirestore.getInstance()
-                .collection("lugares")
-                .limit(50);
-        FirestoreRecyclerOptions<Hampo> opciones = new FirestoreRecyclerOptions
-                .Builder<Hampo>().setQuery(query, Hampo.class).build();
-        adaptador = new AdapterHamposFirestoreUI(opciones, this.getContext());
-
 
     }
 
@@ -88,9 +81,11 @@ public class nav_mis_hampos extends Fragment {
 
     private void llenarLista() {
 
-        db.collection("hampos");
-        listHampos.add(new Hampo("Crear Hampo", R.drawable.ic_add_hampo, "", "",""));
+       /*ACABAR ESTO
+        db.collection("hampos").document("");
 
+        listHampos.add(new Hampo("Crear Hampo", R.drawable.ic_add_hampo, "", "",""));
+        */
     }
 
 }
