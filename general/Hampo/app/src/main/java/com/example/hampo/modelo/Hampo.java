@@ -8,6 +8,8 @@ public class Hampo {
     private String idUser;
     private String raza;
 
+    public Hampo(){}
+
     public Hampo(String nombre, String uriFoto, String comida, String bebida, String idUser, String raza) {
         this.nombre = nombre;
         this.uriFoto = uriFoto;

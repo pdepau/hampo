@@ -14,6 +14,7 @@
     <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
 
     <application
+        android:name="com.example.hampo.Aplicacion"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
@@ -24,12 +25,14 @@
         android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.hampo.MainActivity"
+            android:name="com.example.hampo.presentacion.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name="com.example.hampo.LoginActivity" >
+        <activity android:name="com.example.hampo.presentacion.LoginActivity" >
         </activity>
-        <activity android:name="com.example.hampo.CustomLoginActivity" >
+        <activity android:name="com.example.hampo.presentacion.PreferenciasActivity" >
+        </activity>
+        <activity android:name="com.example.hampo.presentacion.CustomLoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -189,6 +192,9 @@
                 android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
                 android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
@@ -234,6 +240,7 @@
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"
             android:authorities="com.example.hampo.firebaseinitprovider"
+            android:directBootAware="true"
             android:exported="false"
             android:initOrder="100" />
         <provider

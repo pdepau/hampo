@@ -67,6 +67,8 @@ animator nav_default_enter_anim
 animator nav_default_exit_anim
 animator nav_default_pop_enter_anim
 animator nav_default_pop_exit_anim
+array idiomas
+array idiomasValores
 attr action
 attr actionBarDivider
 attr actionBarItemBackground
@@ -2535,6 +2537,7 @@ mipmap ic_launcher_round
 navigation mobile_navigation
 plurals fui_error_weak_password
 plurals mtrl_badge_content_description
+raw audio
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -3692,6 +3695,7 @@ styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewPager2 android_orientation
 styleable ViewStubCompat android_id android_layout android_inflatedId
+xml preferencias
 xml standalone_badge
 xml standalone_badge_gravity_bottom_end
 xml standalone_badge_gravity_bottom_start

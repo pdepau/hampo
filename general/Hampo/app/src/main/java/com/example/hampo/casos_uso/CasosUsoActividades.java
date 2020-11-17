@@ -18,12 +18,5 @@ public class CasosUsoActividades {
         Intent i = new Intent(this.actividad.getBaseContext(), PreferenciasActivity.class);
         actividad.startActivity(i);
     }
-    /*public void lanzarFAQ(View v){
-        Intent i = new Intent(this.actividad.getBaseContext(), FAQActivity.class);
-        actividad.startActivity(i);
-    }
-    public void lanzarMiPerfil(View v){
-        Intent i = new Intent(this.actividad.getBaseContext(), MiPerfilActivity.class);
-        actividad.startActivity(i);
-    }*/
+
 }

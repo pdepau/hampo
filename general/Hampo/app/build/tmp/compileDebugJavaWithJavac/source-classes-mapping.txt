@@ -1,29 +1,51 @@
-com/example/hampo/SpacesItemDecoration.java
- com.example.hampo.SpacesItemDecoration
-com/example/hampo/ui/nav_mis_hampos.java
- com.example.hampo.ui.nav_mis_hampos
-com/example/hampo/AdapterHampos.java
- com.example.hampo.AdapterHampos
- com.example.hampo.AdapterHampos$ViewHolderHampos
-com/example/hampo/LoginActivity.java
- com.example.hampo.LoginActivity
-com/example/hampo/MainActivity.java
- com.example.hampo.MainActivity
- com.example.hampo.MainActivity$1
+com/example/hampo/presentacion/PreferenciasActivity.java
+ com.example.hampo.presentacion.PreferenciasActivity
+com/example/hampo/presentacion/MainActivity.java
+ com.example.hampo.presentacion.MainActivity
+ com.example.hampo.presentacion.MainActivity$1
+com/example/hampo/presentacion/PreferenciasFragment.java
+ com.example.hampo.presentacion.PreferenciasFragment
+com/example/hampo/ui/nav_FAQ.java
+ com.example.hampo.ui.nav_FAQ
 com/example/hampo/ui/MiPerfilFragment.java
  com.example.hampo.ui.MiPerfilFragment
 com/example/hampo/ui/nav_config.java
  com.example.hampo.ui.nav_config
-com/example/hampo/ui/nav_FAQ.java
- com.example.hampo.ui.nav_FAQ
-com/example/hampo/Hampo.java
- com.example.hampo.Hampo
-com/example/hampo/CustomLoginActivity.java
- com.example.hampo.CustomLoginActivity
- com.example.hampo.CustomLoginActivity$1
- com.example.hampo.CustomLoginActivity$2
- com.example.hampo.CustomLoginActivity$3
-com/example/hampo/ui/nav_adiestramiento.java
- com.example.hampo.ui.nav_adiestramiento
+com/example/hampo/presentacion/LoginActivity.java
+ com.example.hampo.presentacion.LoginActivity
+com/example/hampo/presentacion/SpacesItemDecoration.java
+ com.example.hampo.presentacion.SpacesItemDecoration
+com/example/hampo/presentacion/CustomLoginActivity.java
+ com.example.hampo.presentacion.CustomLoginActivity
+ com.example.hampo.presentacion.CustomLoginActivity$1
+ com.example.hampo.presentacion.CustomLoginActivity$2
+ com.example.hampo.presentacion.CustomLoginActivity$3
 com/example/hampo/BuildConfig.java
  com.example.hampo.BuildConfig
+com/example/hampo/casos_uso/CasosUsoActividades.java
+ com.example.hampo.casos_uso.CasosUsoActividades
+com/example/hampo/ui/nav_adiestramiento.java
+ com.example.hampo.ui.nav_adiestramiento
+com/example/hampo/Aplicacion.java
+ com.example.hampo.Aplicacion
+com/example/hampo/ui/nav_mis_hampos.java
+ com.example.hampo.ui.nav_mis_hampos
+ com.example.hampo.ui.nav_mis_hampos$1
+com/example/hampo/AdapterHampos.java
+ com.example.hampo.AdapterHampos
+ com.example.hampo.AdapterHampos$ViewHolderHampos
+com/example/hampo/datos/HamposAsinc.java
+ com.example.hampo.datos.HamposAsinc
+ com.example.hampo.datos.HamposAsinc$EscuchadorElemento
+ com.example.hampo.datos.HamposAsinc$EscuchadorTamano
+com/example/hampo/datos/HamposFirestore.java
+ com.example.hampo.datos.HamposFirestore
+ com.example.hampo.datos.HamposFirestore$1
+ com.example.hampo.datos.HamposFirestore$2
+com/example/hampo/AdapterHamposFirestoreUI.java
+ com.example.hampo.AdapterHamposFirestoreUI
+com/example/hampo/casos_uso/CasosUsoHampo.java
+ com.example.hampo.casos_uso.CasosUsoHampo
+ com.example.hampo.casos_uso.CasosUsoHampo$1
+com/example/hampo/modelo/Hampo.java
+ com.example.hampo.modelo.Hampo

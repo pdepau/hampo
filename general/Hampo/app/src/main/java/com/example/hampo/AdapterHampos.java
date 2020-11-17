@@ -46,7 +46,7 @@ public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolder
 
     public static class ViewHolderHampos extends RecyclerView.ViewHolder {
 
-        TextView nombre, comida, bebida, temperatura;
+        TextView nombre, comida, bebida;
         ImageView foto;
 
         public ViewHolderHampos(@NonNull View itemView) {
@@ -54,7 +54,7 @@ public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolder
             nombre = itemView.findViewById(R.id.hampoNombre);
             comida = itemView.findViewById(R.id.hampoComida);
             bebida = itemView.findViewById(R.id.hampoBebida);
-            temperatura = itemView.findViewById(R.id.hampoTemperatura);
+           // temperatura = itemView.findViewById(R.id.hampoTemperatura);
             foto = itemView.findViewById(R.id.hampoFoto);
         }
 

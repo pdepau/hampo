@@ -2,6 +2,7 @@ package com.example.hampo;
 
 import android.app.Application;
 
+import com.example.hampo.AdapterHamposFirestoreUI;
 import com.example.hampo.datos.HamposAsinc;
 import com.example.hampo.datos.HamposFirestore;
 import com.example.hampo.modelo.Hampo;
@@ -19,7 +20,7 @@ public class Aplicacion extends Application {
         super.onCreate();
         hampos = new HamposFirestore();
         Query query = FirebaseFirestore.getInstance()
-                .collection("lugares")
+                .collection("hampos")
                 .limit(50);
         FirestoreRecyclerOptions<Hampo> opciones = new FirestoreRecyclerOptions
                 .Builder<Hampo>().setQuery(query, Hampo.class).build();

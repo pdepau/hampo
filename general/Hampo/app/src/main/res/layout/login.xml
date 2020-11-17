@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:paddingTop="24dp"
-    tools:context=".CustomLoginActivity">
+    tools:context=".presentacion.CustomLoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

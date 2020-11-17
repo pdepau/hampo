@@ -103,7 +103,7 @@ public class CasosUsoHampo {
                     actividad.getExternalFilesDir(Environment.DIRECTORY_PICTURES));
             if (Build.VERSION.SDK_INT >= 24) {
                 uriUltimaFoto = FileProvider.getUriForFile(
-                        actividad, "es.lorelay.mis_lugares2.fileProvider", file);
+                        actividad, "es.lorelay.hampos.fileProvider", file);
             } else {
                 uriUltimaFoto = Uri.fromFile(file);
             }

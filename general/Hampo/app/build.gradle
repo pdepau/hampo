@@ -48,5 +48,4 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.firebaseui:firebase-ui-firestore:6.3.0'
 
-
 }
