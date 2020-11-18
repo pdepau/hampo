@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\GITprojects\\hampoV1\\general\\Hampo\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-fr-rCA\\values-fr-rCA.xml",
+            "outputFile": "C:\\GITprojects\\hampoV2\\general\\Hampo\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-fr-rCA\\values-fr-rCA.xml",
             "map": [
                 {
                     "source": "C:\\Users\\DANI\\.gradle\\caches\\transforms-2\\files-2.1\\e6b0b1640db575e1b0e8ab13bbdbb315\\jetified-play-services-basement-17.3.0\\res\\values-fr-rCA\\values.xml",

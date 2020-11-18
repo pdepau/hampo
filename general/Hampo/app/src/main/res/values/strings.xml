@@ -1,7 +1,4 @@
 <resources>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyD-En9voVN8sJTnU41n7vJSyiHVxeYtS6g
-    </string>
     <string name="option_get_place">MenuOption</string>
 
     <string name="app_name">Hampo</string>

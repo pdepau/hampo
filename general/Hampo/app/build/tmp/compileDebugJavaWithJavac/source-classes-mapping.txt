@@ -33,8 +33,9 @@ com/example/hampo/BuildConfig.java
  com.example.hampo.BuildConfig
 com/example/hampo/casos_uso/CasosUsoActividades.java
  com.example.hampo.casos_uso.CasosUsoActividades
-com/example/hampo/casos_uso/CasosUsoMQTT.java
- com.example.hampo.casos_uso.CasosUsoMQTT
+com/example/hampo/ui/nav_mis_hampos.java
+ com.example.hampo.ui.nav_mis_hampos
+ com.example.hampo.ui.nav_mis_hampos$1
 com/example/hampo/presentacion/PreferenciasActivity.java
  com.example.hampo.presentacion.PreferenciasActivity
 com/example/hampo/presentacion/CustomLoginActivity.java
@@ -58,6 +59,5 @@ com/example/hampo/ui/nav_adiestramiento.java
  com.example.hampo.ui.nav_adiestramiento
 com/example/hampo/modelo/Hampo.java
  com.example.hampo.modelo.Hampo
-com/example/hampo/ui/nav_mis_hampos.java
- com.example.hampo.ui.nav_mis_hampos
- com.example.hampo.ui.nav_mis_hampos$1
+com/example/hampo/casos_uso/CasosUsoMQTT.java
+ com.example.hampo.casos_uso.CasosUsoMQTT
