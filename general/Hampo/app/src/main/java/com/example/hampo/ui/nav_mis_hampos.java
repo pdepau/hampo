@@ -1,5 +1,6 @@
 package com.example.hampo.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.example.hampo.casos_uso.CasosUsoHampo;
 import com.example.hampo.datos.HamposAsinc;
 import com.example.hampo.modelo.Hampo;
 import com.example.hampo.R;
+import com.example.hampo.presentacion.CreateHampoActivity;
+import com.example.hampo.presentacion.GpsActivity;
 import com.example.hampo.presentacion.SpacesItemDecoration;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -66,7 +69,8 @@ public class nav_mis_hampos extends Fragment {
                 //usoHampo.mostrar(pos);
             }
         });
-
+        Intent i = new Intent(getContext(), CreateHampoActivity.class);
+        startActivity(i);
         return vista;
     }
 
@@ -74,6 +78,7 @@ public class nav_mis_hampos extends Fragment {
         super.onActivityCreated(state);
         adaptador.startListening();
     }
+
     @Override public void onDestroy() {
         super.onDestroy();
         adaptador.stopListening();

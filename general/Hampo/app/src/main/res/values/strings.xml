@@ -1,8 +1,21 @@
 <resources>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyD-En9voVN8sJTnU41n7vJSyiHVxeYtS6g
+    </string>
+    <string name="option_get_place">MenuOption</string>
+
     <string name="app_name">Hampo</string>
     <string name="inicio_sesion_google">Iniciar con Google</string>
     <string name="inicio_sesion_correo">Iniciar con Correo</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
+
+    <string name="label_nombre_create_hampo">Nombre de tu hampo</string>
+    <string name="label_select_create_hampo">Selecciona su raza</string>
+    <string name="label_sex_create_hampo">Selecciona su género</string>
+    <string name="cancel_btn_create_hampo">Cancelar</string>
+    <string name="create_btn_create_hampo">Crear hampo</string>
+    <string name="label_foto_create_hampo">Añade una foto de tu hampo</string>
+    <string name="textViewSelectPic">Selecciona una opción</string>
 
     <string name="menu_mi_perfil">Mi Perfil</string>
     <string name="menu_mis_hampos">Mis Hampos</string>

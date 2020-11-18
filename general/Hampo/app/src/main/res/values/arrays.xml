@@ -10,5 +10,11 @@
     <item>1</item>
     <item>2</item>
     </string-array>
-
+    <string-array name="arrayRazasHamster">
+        <item>Común</item>
+        <item>Furibury</item>
+        <item>Pikachu</item>
+        <item>Minus</item>
+        <item>Raticate</item>
+    </string-array>
 </resources>
