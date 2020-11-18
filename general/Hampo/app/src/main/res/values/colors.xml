@@ -5,4 +5,8 @@
     <color name="colorAccent">#E3B176</color>
     <color name="femaleColor">#F49EB2</color>
     <color name="maleColor">#8EF6F6</color>
+    <color name="colorAccent2">#E83636</color>
+    <color name="colorAccent3">#e74875</color>
+    <color name="colorIlum">#eed633</color>
+    <color name="colorActi">#debe79</color>
 </resources>

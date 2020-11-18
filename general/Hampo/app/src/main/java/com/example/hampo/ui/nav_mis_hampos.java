@@ -16,8 +16,7 @@ import com.example.hampo.casos_uso.CasosUsoHampo;
 import com.example.hampo.datos.HamposAsinc;
 import com.example.hampo.modelo.Hampo;
 import com.example.hampo.R;
-import com.example.hampo.presentacion.CreateHampoActivity;
-import com.example.hampo.presentacion.GpsActivity;
+import com.example.hampo.presentacion.MiHampo;
 import com.example.hampo.presentacion.SpacesItemDecoration;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,7 +53,7 @@ public class nav_mis_hampos extends Fragment {
         adaptador = ((Aplicacion) getActivity().getApplication()).adaptador;
         recyclerView = (RecyclerView) vista.findViewById(R.id.recyclerView);
         recyclerView.addItemDecoration(new SpacesItemDecoration(4));
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         llenarLista();
 
@@ -66,20 +65,28 @@ public class nav_mis_hampos extends Fragment {
             @Override
             public void onClick(View v) {
                 int pos = recyclerView.getChildAdapterPosition(v);
-                //usoHampo.mostrar(pos);
+                if (pos == 0) {
+                    //usoHampo.mostrar(pos);
+                    Intent i = new Intent(getContext(), MiHampo.class);
+                    startActivity(i);
+                } else {
+                    Intent i = new Intent(getContext(), MiHampo.class);
+                    startActivity(i);
+                }
             }
         });
-        Intent i = new Intent(getContext(), CreateHampoActivity.class);
-        startActivity(i);
+
         return vista;
     }
 
-    @Override public void onActivityCreated(Bundle state) {
+    @Override
+    public void onActivityCreated(Bundle state) {
         super.onActivityCreated(state);
         adaptador.startListening();
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         adaptador.stopListening();
     }
