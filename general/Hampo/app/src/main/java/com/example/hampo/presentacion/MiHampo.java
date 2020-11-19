@@ -15,7 +15,10 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +28,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 
 import com.example.hampo.R;
+import com.example.hampo.casos_uso.CasosUsoMQTT;
 import com.example.hampo.ui.MiPerfilFragment;
 
 import java.io.File;
@@ -37,11 +41,13 @@ import java.net.URL;
 public class MiHampo extends AppCompatActivity {
     ImageView imagenHampo;
     Uri uriUltimaFoto;
-
+    Button mqttBtn;
+    CasosUsoMQTT mqtt = new CasosUsoMQTT();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mi_hampo);
-
+        mqttBtn = findViewById(R.id.sendMqttBtn);
+        mqtt.crearConexionMQTT("123");
         findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
             imagenHampo = findViewById(R.id.imagenHampo);
             //Cuando clica sobre el frameLayout para añadir una imagen
@@ -72,6 +78,12 @@ public class MiHampo extends AppCompatActivity {
                     findViewById(R.id.toggle_layout).setVisibility(View.VISIBLE);
 
                     uriUltimaFoto = manejadorFotoHampo();
+                }
+            });
+            mqttBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mqtt.enviarMensajeMQTT("ON","luz/casa");
                 }
             });
         }

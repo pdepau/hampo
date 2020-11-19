@@ -18,11 +18,14 @@ public class CasosUsoMQTT implements MqttCallback {
 
     public static MqttClient client = null;
 
+    public CasosUsoMQTT() {
+    }
+
     //Crear conexion con el broker MQTT
-    public void crearConexionMQTT() {
+    public void crearConexionMQTT(String clientId) {
         try {
             Log.i(MQTT.TAG, "Conectando al broker " + MQTT.broker);
-            client = new MqttClient(MQTT.broker, MQTT.clientId,
+            client = new MqttClient(MQTT.broker, clientId,
                     new MemoryPersistence());
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);

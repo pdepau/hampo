@@ -4,6 +4,7 @@ package org.example.androidthingsraspberry;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 
 import androidx.annotation.Nullable;
@@ -24,13 +25,16 @@ import static org.example.comun.MQTT.topicRoot;
 public class MainActivity extends Activity implements MqttCallback {
 
     public static MqttClient client = null;
-
+    ArduinoUART UART;
+    String s;
+    TextView textViewUart;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         crearConexionMQTT();
-        escucharDeTopicMQTT("sensor/humedad");
-        enviarMensajeMQTT("ON", "sensor/humedad");
+        escucharDeTopicMQTT("luz/casa");
+        UART = new ArduinoUART("UART0", 9600);
+        textViewUart = findViewById(R.id.textView1);
     }
 
     //Crear conexion con el broker MQTT
@@ -80,10 +84,17 @@ public class MainActivity extends Activity implements MqttCallback {
     }
 
     @Override
-    public void messageArrived(String topic, MqttMessage message) throws
-            Exception {
+    public void messageArrived(String topic, MqttMessage message) {
         String payload = new String(message.getPayload());
         Log.d(MQTT.TAG, "Recibiendo: " + topic + "->" + payload);
+        if (payload.equalsIgnoreCase("ON")){
+            Log.d(MQTT.TAG, "funcion callback");
+            UART.escribir("");
+        }
+        s = UART.leer();
+        Log.d(MQTT.TAG, s);
+
+        //textViewUart.setText(s);
     }
 
     @Override
