@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="@string/noti">
+
+        <SwitchPreference
+            android:key="notificaciones"
+            android:title="@string/noti"
+            android:summary="@string/notiDesc"/>
+        <Preference
+            android:key="cancion_noti"
+            android:title="@string/cancion" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Otros">
     <CheckBoxPreference
         android:key="musica"
-        android:summary="Se reproduce música de fondo"
-        android:title="Reproducir música" />
-    <CheckBoxPreference
-        android:key="notificaciones"
-        android:title="Notificaciones"
-        android:summary="Notificaciones activadas"/>
-    <CheckBoxPreference
+        android:summary="@string/musicaDesc"
+        android:title="@string/musica" />
+
+    <SwitchPreference
         android:key="oscuro"
-        android:title="Tema oscuro"
-        android:summary="Tema oscuro desactivado"/>
+        android:title="@string/temaOsc"
+        android:summary="@string/temaOscDesc"/>
+
     <ListPreference
         android:key="idiomas"
-        android:title="Idiomas"
-        android:summary="Escoge el idioma"
+        android:title="@string/idioma"
+        android:summary="@string/idiomaDesc"
         android:entries="@array/idiomas"
         android:entryValues="@array/idiomasValores"
         android:defaultValue="0"/>
     <Preference
         android:key="feedback"
-        android:title="Send feedback"
-        android:summary="Report technical issues or suggest new features"/>
+        android:title="@string/feedback"
+        android:summary="@string/feedbackDesc"/>
+    </PreferenceCategory>
 
 </PreferenceScreen>
