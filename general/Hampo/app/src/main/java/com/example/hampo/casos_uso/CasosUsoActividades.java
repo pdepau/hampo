@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.core.app.ActivityCompat;
 
+import com.example.hampo.presentacion.GpsActivity;
 import com.example.hampo.presentacion.PreferenciasActivity;
 
 public class CasosUsoActividades extends ActivityCompat{
@@ -16,19 +17,6 @@ public class CasosUsoActividades extends ActivityCompat{
     public CasosUsoActividades(Activity actividad){
         this.actividad = actividad;
     }
-
-    public void lanzarPreferencias(View v){
-        Intent i = new Intent(this.actividad.getBaseContext(), PreferenciasActivity.class);
-        actividad.startActivity(i);
-    }
-    /*public void lanzarFAQ(View v){
-        Intent i = new Intent(this.actividad.getBaseContext(), FAQActivity.class);
-        actividad.startActivity(i);
-    }
-    public void lanzarMiPerfil(View v){
-        Intent i = new Intent(this.actividad.getBaseContext(), MiPerfilActivity.class);
-        actividad.startActivity(i);
-    }*/
 
     //String de ejemplo -> Manifest.permission.READ_EXTERNAL_STORAGEz
     public static boolean checkPermission(Activity actividad, String androidManifPermission){

@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.hampo.R;
+import com.example.hampo.casos_uso.CasosUsoActividades;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,16 +35,21 @@ public class MainActivity extends AppCompatActivity {
 
     MediaPlayer mp;
 
+    private CasosUsoActividades usoActividades;
+
+    private SharedPreferences pref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         //Musica
-        /*mp = MediaPlayer.create(this, R.raw.audio);
-        mp.start();*/
+        mp = MediaPlayer.create(this, R.raw.audio);
+        mp.start();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,8 +79,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
 
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            lanzarPreferencias(null);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
+
+    public void lanzarPreferencias(View v){
+        Intent i = new Intent(this, PreferenciasActivity.class);
+        startActivity(i);
+    }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -102,13 +121,13 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override protected void onResume() {
         super.onResume();
-       /* mp.start();*/
+        mp.start();
     }
     @Override protected void onPause() {
         super.onPause();
     }
     @Override protected void onStop() {
-        /*mp.pause();*/
+        mp.pause();
         super.onStop();
     }
     @Override protected void onRestart() {
