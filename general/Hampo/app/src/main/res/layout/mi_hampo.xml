@@ -6,46 +6,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:paddingBottom="40dp"
     android:textAlignment="center"
     tools:context=".ui.nav_mis_hampos">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="678dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:orientation="vertical">
 
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_height="wrap_content">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="200dp"
-                android:layout_height="175dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="0dp"
-                android:src="@drawable/foto_remi"
-                app:civ_border_color="#99000000"
-                app:civ_border_width="0dp" />
-
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/frameLayout1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5">
 
-        </FrameLayout>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:cardCornerRadius="150dp">
+
+                    <ImageView
+                        android:id="@+id/imagenHampo"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:src="@drawable/foto_remo" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:translationX="135dp"
+                    android:translationY="135dp"
+                    app:cardCornerRadius="150dp"
+                    tools:ignore="ContentDescription">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/camara" />
+                </androidx.cardview.widget.CardView>
+
+            </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textView32"
                 android:layout_width="wrap_content"
                 android:layout_height="39dp"
                 android:text="BUCHITO"
@@ -65,7 +85,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.466"
-                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintStart_toEndOf="@+id/textView32"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
@@ -160,7 +180,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/imageView6"
                 android:layout_width="48dp"
                 android:layout_height="42dp"
                 android:layout_weight="1"
@@ -169,7 +189,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.321"
-                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintStart_toEndOf="@+id/textView32"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.555" />
 
@@ -181,7 +201,7 @@
                 android:orientation="vertical"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView32"
                 app:layout_goneMarginTop="16dp">
 
                 <TextView
@@ -209,7 +229,7 @@
             style="@style/Widget.AppCompat.TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:gravity="center_horizontal"
             android:text="Actividad del hamster" />
 
@@ -228,7 +248,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -259,6 +279,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/constraintLayoutHum"
                 app:layout_constraintHorizontal_bias="0.4"
                 app:layout_constraintStart_toEndOf="@+id/constraintLayoutLum"
+                tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteY="3dp">
 
                 <ImageView
@@ -320,8 +341,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="4dp"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="3dp"
-                tools:ignore="MissingConstraints">
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="3dp">
 
                 <TextView
                     android:id="@+id/textView9"
@@ -379,10 +400,11 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayoutHum"
-                android:layout_width="129dp"
-                android:layout_height="128dp"
+                android:layout_width="125dp"
+                android:layout_height="130dp"
                 android:layout_gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteY="3dp">
 
                 <ImageView
@@ -441,14 +463,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/toggle_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
             android:foregroundGravity="center_vertical"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <Switch
                 android:id="@+id/switch1"
@@ -458,7 +482,7 @@
                 android:text="Luz Casa" />
 
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/switch2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -467,12 +491,72 @@
                 android:text="Luz UV" />
 
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/switch3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:text="Luz Bajo" />
         </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardSelectPicOptions"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_weight="12"
+            android:backgroundTint="#E1D7D7"
+            android:visibility="visible"
+            app:cardBackgroundColor="#DFD7D7"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/textViewSelectPic"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="20dp"
+                android:translationX="15dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardGaleria"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="50dp"
+                app:cardCornerRadius="10dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/galeria" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCamara"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="50dp"
+                android:translationX="100dp"
+                app:cardCornerRadius="50dp">
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/camara" />
+            </androidx.cardview.widget.CardView>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
