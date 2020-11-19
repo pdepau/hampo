@@ -136,14 +136,7 @@ public class MainActivity extends AppCompatActivity {
     @Override protected void onDestroy() {
         super.onDestroy();
     }
-
-    public void mostrarPreferencias(){
-        SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        String s = "música: " + pref.getBoolean("musica",true)
-                +", gráficos: " + pref.getString("idioma","?");
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-    }
+    
 
 
 }
