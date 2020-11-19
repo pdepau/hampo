@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="idiomas">
+        <item>Castellano</item>
+        <item>Català</item>
+        <item>Română</item>
+    </string-array>
+    <string-array name="idiomasValores">
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+    </string-array>
+    <string-array name="arrayRazasHamster">
+        <item>Común</item>
+        <item>Furibury</item>
+        <item>Pikachu</item>
+        <item>Minus</item>
+        <item>Raticate</item>
+    </string-array>
+</resources>

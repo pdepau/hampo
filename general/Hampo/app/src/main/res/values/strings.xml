@@ -1,13 +1,42 @@
 <resources>
+    <string name="option_get_place">MenuOption</string>
+
     <string name="app_name">Hampo</string>
     <string name="inicio_sesion_google">Iniciar con Google</string>
     <string name="inicio_sesion_correo">Iniciar con Correo</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
 
+    <string name="label_nombre_create_hampo">Nombre de tu hampo</string>
+    <string name="label_select_create_hampo">Selecciona su raza</string>
+    <string name="label_sex_create_hampo">Selecciona su género</string>
+    <string name="cancel_btn_create_hampo">Cancelar</string>
+    <string name="create_btn_create_hampo">Crear hampo</string>
+    <string name="label_foto_create_hampo">Añade una foto de tu hampo</string>
+    <string name="textViewSelectPic">Selecciona una opción</string>
+
     <string name="menu_mi_perfil">Mi Perfil</string>
     <string name="menu_mis_hampos">Mis Hampos</string>
     <string name="menu_config">Configuración</string>
-    <string name="menu_adiestramiento">Adiestramiento</string>
+    <string name="menu_adiestramiento">Mapa de hampos</string>
     <string name="menu_FAQ">FAQs</string>
     <string name="btn_cerrar_sesion">Cerrar sesión</string>
+    <string name="nombre_de_usuario">Nombre de usuario:</string>
+    <string name="direcci_n_de_correo_electr_nico">Dirección de correo electrónico:</string>
+    <string name="google_maps_key">AIzaSyDb5b_YX9JZISJtIO6Q-D2FhL6bU7uJdXE</string>
+
+    <string name="cancion">Sonido de Notificación</string>
+    <string name="idiomaDesc">Escoge el idioma</string>
+    <string name="idioma">Idioma</string>
+    <string name="temaOscDesc">Activar/Desactivar modo oscuro</string>
+    <string name="temaOsc">Tema oscuro</string>
+    <string name="musicaDesc">Activar/Desactivar música de fondo</string>
+    <string name="musica">Reproducir música</string>
+    <string name="noti">Notificaciones</string>
+    <string name="notiDesc">Activar/Desactivar notificaciones de la aplicación</string>
+    <string name="feedback">Envia feedback</string>
+    <string name="feedbackDesc">Reporta algún fallo</string>
+
+
+
+
 </resources>
