@@ -39,62 +39,71 @@ import java.net.URL;
 
 
 public class MiHampo extends AppCompatActivity {
+
     ImageView imagenHampo;
     Uri uriUltimaFoto;
     Button mqttBtn;
     CasosUsoMQTT mqtt = new CasosUsoMQTT();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mi_hampo);
+/*
         mqttBtn = findViewById(R.id.sendMqttBtn);
         mqtt.crearConexionMQTT("123");
+
         findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
-            imagenHampo = findViewById(R.id.imagenHampo);
-            //Cuando clica sobre el frameLayout para añadir una imagen
-            findViewById(R.id.frameLayout1).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    findViewById(R.id.cardSelectPicOptions).setVisibility(View.VISIBLE);
-                    findViewById(R.id.toggle_layout).setVisibility(View.GONE);
 
-                }
-            });
-            //Cuando clica sobre la imagen de galeria
-            findViewById(R.id.cardGaleria).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.toggle_layout).setVisibility(View.VISIBLE);
+        imagenHampo = findViewById(R.id.imagenHampo);
 
-                    ponerDeGaleria(1);
-                }
-            });
+        //Cuando clica sobre el frameLayout para añadir una imagen
+        findViewById(R.id.frameLayout1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.cardSelectPicOptions).setVisibility(View.VISIBLE);
+                findViewById(R.id.toggle_layout).setVisibility(View.GONE);
+            }
+        });
 
-            //Cuando clica sobre la imagen de la camara
-            findViewById(R.id.cardCamara).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.toggle_layout).setVisibility(View.VISIBLE);
+        //Cuando clica sobre la imagen de galeria
+        findViewById(R.id.cardGaleria).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
+                findViewById(R.id.toggle_layout).setVisibility(View.VISIBLE);
+                ponerDeGaleria(1);
+            }
+        });
 
-                    uriUltimaFoto = manejadorFotoHampo();
-                }
-            });
-            mqttBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mqtt.enviarMensajeMQTT("ON","luz/casa");
-                }
-            });
-        }
+        //Cuando clica sobre la imagen de la camara
+        findViewById(R.id.cardCamara).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
+                findViewById(R.id.toggle_layout).setVisibility(View.VISIBLE);
+                uriUltimaFoto = manejadorFotoHampo();
+            }
+        });
+
+        mqttBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mqtt.enviarMensajeMQTT("ON", "luz/casa");
+            }
+        });
+*/
+    }
+
 
     public void visualizarFoto(ImageView imageView, String uri) {
         imageView.setImageBitmap(reduceBitmap(this, uri, 2048, 2048));
     }
 
+
     private Uri manejadorFotoHampo() {
         return tomarFoto(2);
     }
+
 
     private Bitmap reduceBitmap(Context contexto, String uri,
                                 int maxAncho, int maxAlto) {
@@ -163,6 +172,7 @@ public class MiHampo extends AppCompatActivity {
         intent.setType("image/*");
         startActivityForResult(intent, codigoSolicitud);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
