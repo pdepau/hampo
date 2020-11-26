@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.things.pio.PeripheralManager;
 import com.google.android.things.pio.UartDevice;
 import com.google.android.things.pio.UartDeviceCallback;
@@ -37,9 +37,14 @@ public class MainActivity extends Activity implements MqttCallback {
     ArduinoUART UART;
     String s;
     TextView textViewUart;
+    int dataSize = 8;
+    String dataRAW = "";
+    boolean fullDataReaded;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseDataSensors firebaseDataSensors = new FirebaseDataSensors();
         crearConexionMQTT();
         escucharDeTopicMQTT("luz/casa");
         //UART = new ArduinoUART("UART0", 9600);
@@ -48,17 +53,20 @@ public class MainActivity extends Activity implements MqttCallback {
         try {
             mDevice = manager.openUartDevice(UART_DEVICE_NAME);
             configureUartFrame(mDevice);
+            uartCallback.onUartDeviceDataAvailable(mDevice);
             writeUartData(mDevice);
+            //Log.e("UART", "DataRAW = " + dataRAW);
         } catch (IOException e) {
             Log.w("UART", "Error en openUartDevice: ", e);
         }
+
     }
 
     public void writeUartData(UartDevice uart) throws IOException {
-        String str = "gg";
+        String str = "k";
         byte[] buffer = str.getBytes();
         int count = uart.write(buffer, buffer.length);
-        Log.d("UARt", "Wrote " + count + " bytes to peripheral");
+        Log.d("UART", "Wrote " + count + " bytes to peripheral");
     }
 
     @Override
@@ -130,7 +138,7 @@ public class MainActivity extends Activity implements MqttCallback {
         try {
             String payload = new String(message.getPayload());
             Log.d(MQTT.TAG, "Recibiendo: " + topic + "->" + payload);
-            if (payload.equalsIgnoreCase("ON")){
+            if (payload.equalsIgnoreCase("ON")) {
                 Log.d(MQTT.TAG, "funcion callback");
                 //UART.escribir("hh");
             }
@@ -138,17 +146,19 @@ public class MainActivity extends Activity implements MqttCallback {
             //Log.d(MQTT.TAG, "Recibido en uart: "+s);
 
             //textViewUart.setText(s);
-        } catch (Exception e){
-            Log.d(MQTT.TAG, "Error en message arrived callback: "+e.getMessage());
+        } catch (Exception e) {
+            Log.d(MQTT.TAG, "Error en message arrived callback: " + e.getMessage());
         }
     }
+
     public void configureUartFrame(UartDevice uart) throws IOException {
         // Configure the UART port
         uart.setBaudrate(9600);
-        uart.setDataSize(8);
+        uart.setDataSize(dataSize);
         uart.setParity(UartDevice.PARITY_NONE);
         uart.setStopBits(1);
     }
+
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
         Log.d(MQTT.TAG, "Entrega completa");
@@ -158,12 +168,20 @@ public class MainActivity extends Activity implements MqttCallback {
         @Override
         public boolean onUartDeviceDataAvailable(UartDevice uart) {
             // Read available data from the UART device
+
             try {
                 readUartBuffer(uart);
             } catch (IOException e) {
                 Log.w("UART", "Unable to access UART device", e);
             }
-
+            /* Despues de entrar all callback lee los datos y
+             *  en este scope tenemos el string que recibimos por la uart
+             * */
+            if (fullDataReaded) {
+                Log.e("UART", "DataRAW = " + dataRAW);
+                Log.e("UART", "DataFormatted =" + formatToJSON(dataRAW));
+                convertToJSON(formatToJSON(dataRAW));
+            }
             // Continue listening for more interrupts
             return true;
         }
@@ -172,19 +190,67 @@ public class MainActivity extends Activity implements MqttCallback {
         public void onUartDeviceError(UartDevice uart, int error) {
             Log.w("UART", uart + ": Error event " + error);
         }
+
     };
+
+    public String formatToJSON(String dataToFormat) {
+        String res = "";
+        String itr;
+        for (int i = 0; i < dataToFormat.length(); i++) {
+            itr = Character.toString(dataToFormat.charAt(i));
+            if (itr.matches("[a-zA-Z{}\":.,0-9]*")) {
+                res += dataToFormat.charAt(i);
+            }
+        }
+        return res;
+    }
+
+    public boolean checkFinalBit(String str) {
+        String itr;
+        int contador = 0;
+        for (int i = 0; i < str.length(); i++) {
+            itr = Character.toString(str.charAt(i));
+            if (itr.matches("#")) {
+                contador++;
+            }
+        }
+        if (contador == 2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void readUartBuffer(UartDevice uart) throws IOException {
         // Maximum amount of data to read at one time
-        final int maxCount = 8;
+        final int maxCount = dataSize;
         byte[] buffer = new byte[maxCount];
 
         int count;
         while ((count = uart.read(buffer, buffer.length)) > 0) {
-            Log.d("UART", "Read " + count + " bytes from peripheral");
+            Log.e("UART", "Read " + count + " bytes from peripheral");
+            String str = new String(buffer, StandardCharsets.UTF_8);
+            if (checkFinalBit(str)) {
+                dataRAW += formatToJSON(str);
+                fullDataReaded = true;
+            } else {
+                dataRAW += str;
+                fullDataReaded = false;
+            }
+            Log.e("UART", "String converted from buffer " + str + " buffer length = " + buffer.length);
         }
-        String str = new String(buffer, StandardCharsets.UTF_8);
+        //Log.e("UART", "DataRAW = " + dataRAW);
+        //int str = uart.read(buffer,maxCount);
+    }
 
-        Log.d("UART", "String converted from buffer " + str);
+    public static void convertToJSON(String strToConvert) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            SensorsData datos = objectMapper.readValue(strToConvert, SensorsData.class);
+            Log.e("UART", "DATOS OBJETO = " + datos.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

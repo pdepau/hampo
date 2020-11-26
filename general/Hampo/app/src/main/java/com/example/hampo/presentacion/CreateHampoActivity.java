@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,9 +21,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 
 import com.example.hampo.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,10 +37,14 @@ public class CreateHampoActivity extends AppCompatActivity {
 
     private ImageView imagenHampo;
     private Uri uriUltimaFoto;
+    private ConstraintLayout layout;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_hampo);
+
+        layout = findViewById(R.id.myConstraintLayout);
         findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
         imagenHampo = findViewById(R.id.imagenHampo);
         //Cuando clica sobre el frameLayout para añadir una imagen
@@ -45,13 +52,23 @@ public class CreateHampoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.VISIBLE);
+                layout.setBackgroundColor(Color.parseColor("#D8D1D0"));
+            }
+        });
 
+        //Cuando clica sobre el layout con el desplegable visible
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
             }
         });
         //Cuando clica sobre la imagen de galeria
         findViewById(R.id.cardGaleria).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                layout.setBackgroundColor(Color.parseColor("#ffffff"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 ponerDeGaleria(1);
             }
@@ -61,6 +78,7 @@ public class CreateHampoActivity extends AppCompatActivity {
         findViewById(R.id.cardCamara).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                layout.setBackgroundColor(Color.parseColor("#ffffff"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 uriUltimaFoto = manejadorFotoHampo();
             }
@@ -197,6 +215,8 @@ public class CreateHampoActivity extends AppCompatActivity {
     }
 
     public void femaleOptionSelected(View view) {
+        layout.setBackgroundColor(Color.parseColor("#ffffff"));
+        findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
         CardView maleCard = findViewById(R.id.maleCard);
         maleCard.setCardBackgroundColor(12);
         CardView femaleCard = findViewById(R.id.femaleCard);
@@ -204,6 +224,8 @@ public class CreateHampoActivity extends AppCompatActivity {
     }
 
     public void maleOptionSelected(View view) {
+        layout.setBackgroundColor(Color.parseColor("#ffffff"));
+        findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
         CardView femaleCard = findViewById(R.id.femaleCard);
         femaleCard.setCardBackgroundColor(12);
         CardView maleCard = findViewById(R.id.maleCard);
