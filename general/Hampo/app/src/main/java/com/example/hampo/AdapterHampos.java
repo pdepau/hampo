@@ -32,9 +32,7 @@ public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolderHampos holder, int position) {
         holder.nombre.setText(listHampos.get(position).getNombre());
        // holder.foto.setImageResource(listHampos.get(position).getImagenId());
-        holder.comida.setText(listHampos.get(position).getComida());
-        holder.bebida.setText(listHampos.get(position).getBebida());
-        //holder.temperatura.setText(listHampos.get(position).getTemperatura());
+
     }
 
 
@@ -52,9 +50,6 @@ public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolder
         public ViewHolderHampos(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.hampoNombre);
-            comida = itemView.findViewById(R.id.hampoComida);
-            bebida = itemView.findViewById(R.id.hampoBebida);
-           // temperatura = itemView.findViewById(R.id.hampoTemperatura);
             foto = itemView.findViewById(R.id.hampoFoto);
         }
 

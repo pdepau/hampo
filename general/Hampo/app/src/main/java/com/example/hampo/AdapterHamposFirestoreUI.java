@@ -54,9 +54,6 @@ public class AdapterHamposFirestoreUI extends
 
 
         holder.nombre.setText(hampo.getNombre());
-        holder.comida.setText(hampo.getComida());
-        holder.bebida.setText(hampo.getBebida());
-       // holder.temperatura.setText(hampo.getTemperatura);
         holder.foto.setImageResource(R.drawable.pp);
         holder.foto.setScaleType(ImageView.ScaleType.FIT_START);
 
