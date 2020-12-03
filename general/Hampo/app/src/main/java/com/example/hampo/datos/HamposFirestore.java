@@ -19,8 +19,8 @@ public class HamposFirestore implements HamposAsinc {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         hampos = db.collection(Aplicacion.getId());
     }
-    public void elemento(String id_jaula, final EscuchadorElemento escuchador) {
-        hampos.document(id_jaula).get().addOnCompleteListener(
+    public void elemento(String id, final EscuchadorElemento escuchador) {
+        hampos.document(id).get().addOnCompleteListener(
                 new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {

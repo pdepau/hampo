@@ -2,6 +2,7 @@ package com.example.hampo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,6 @@ public class nav_mis_hampos extends Fragment {
     ArrayList<Hampo> listHampos;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static AdapterHamposFirestoreUI adaptador;
-    private HamposAsinc hampos;
-    private CasosUsoHampo usoHampo;
 
 
 
@@ -69,8 +68,9 @@ public class nav_mis_hampos extends Fragment {
         adaptador.setOnItemClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //int pos = recyclerView.getChildAdapterPosition(v);
+               int pos = recyclerView.getChildLayoutPosition(v);
                 Intent i = new Intent(getContext(), MiHampo.class);
+                i.putExtra("id",adaptador.getKey(pos));
                 startActivity(i);
             }
         });

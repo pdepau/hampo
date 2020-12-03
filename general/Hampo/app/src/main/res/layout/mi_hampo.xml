@@ -30,7 +30,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="1000dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView6"
+                app:layout_constraintBottom_toTopOf="@+id/nombreHampo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -114,11 +114,11 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/nombreHampo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="Kennen"
+                android:text="No va"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/cardView2"
@@ -143,14 +143,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Peso"
-                app:layout_constraintBottom_toTopOf="@+id/textView8"
+                app:layout_constraintBottom_toTopOf="@+id/pesoHampo"
                 app:layout_constraintEnd_toStartOf="@+id/barraDivisora1"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/pesoHampo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="300g"
@@ -165,17 +165,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Raza:"
-                app:layout_constraintBottom_toTopOf="@+id/textView10"
-                app:layout_constraintEnd_toEndOf="@+id/textView10"
+                app:layout_constraintBottom_toTopOf="@+id/razaHampo"
+                app:layout_constraintEnd_toEndOf="@+id/razaHampo"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/textView10"
+                app:layout_constraintStart_toStartOf="@+id/razaHampo"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/razaHampo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Roborovski"
+                android:text="No va"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/barraDivisora2"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -200,7 +200,7 @@
                 android:layout_height="49dp"
                 android:background="#E9E9E9"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textView10"
+                app:layout_constraintEnd_toStartOf="@+id/razaHampo"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -213,7 +213,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textView11"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textView10"
+                app:layout_constraintStart_toEndOf="@+id/razaHampo"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -261,7 +261,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/porcentajeComida"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -308,7 +308,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView17"
+                    android:id="@+id/porcentajeBebida"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -323,7 +323,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout8"
+            android:id="@+id/fondoActividad"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -335,7 +335,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout13">
 
             <TextView
-                android:id="@+id/textView28"
+                android:id="@+id/progresoActividad"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:background="@drawable/progressbar_actividad"
@@ -357,7 +357,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView27"
+                android:id="@+id/porcentajeActividad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -392,10 +392,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView33"
+                android:id="@+id/temperatura"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="77ºF"
+                android:text="E"
                 android:textColor="#EF908E"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -427,10 +427,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView34"
+                android:id="@+id/porcentajeHumedad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10%"
+                android:text="E"
                 android:textColor="#A8D5F7"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -462,10 +462,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView32"
+                android:id="@+id/porcentajeIluminacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="45%"
+                android:text="E"
                 android:textColor="#FCCC72"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
