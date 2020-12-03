@@ -30,7 +30,7 @@ public class CasosUsoHampo {
     private Activity actividad;
     private HamposAsinc hampos;
 
-    public CasosUsoHampo(Activity actividad, HamposAsinc lugares) {
+    public CasosUsoHampo(Activity actividad, HamposAsinc hampos) {
         this.actividad = actividad;
         this.hampos = hampos;
     }
@@ -42,8 +42,8 @@ public class CasosUsoHampo {
         actividad.startActivity(i);
     }*/
 
-    public void borrar(String id) {
-        hampos.borrar(id);
+    public void borrar(String id_jaula) {
+        hampos.borrar(id_jaula);
         actividad.finish();
     }
 
@@ -52,10 +52,10 @@ public class CasosUsoHampo {
         Intent i = new Intent(actividad, EditarHampoActivity.class);
         i.putExtra("pos", pos);
         actividad.startActivityForResult(i, codigo);
-    }*7
+    }*/
 
-    public void guardar(String id, Hampo nuevoHampo) {
-        hampos.actualiza(id, nuevoHampo);
+    public void guardar(String id_jaula, Hampo nuevoHampo) {
+        hampos.actualiza(id_jaula, nuevoHampo);
     }
 
     // INTENCIONES

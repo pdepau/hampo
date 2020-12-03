@@ -17,10 +17,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class LecturaFirestore implements LecturaAsinc {
 
 
-  /*  public LecturaFirestore(String id_jaula) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        lecturas = db.collection(Aplicacion.getId()).document(id_jaula).collection("Lecturas");
-    }*/
     @Override
     public void ultimaLectura(String id_jaula, final EscuchadorElemento escuchador) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

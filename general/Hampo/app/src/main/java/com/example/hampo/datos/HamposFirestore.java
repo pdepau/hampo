@@ -40,11 +40,11 @@ public class HamposFirestore implements HamposAsinc {
     public String nuevo() {
         return hampos.document().getId();
     }
-    public void borrar(String id) {
-        hampos.document(id).delete();
+    public void borrar(String id_jaula) {
+        hampos.document(id_jaula).delete();
     }
-    public void actualiza(String id, Hampo hampo) {
-        hampos.document(id).set(hampo);
+    public void actualiza(String id_jaula, Hampo hampo) {
+        hampos.document(id_jaula).set(hampo);
     }
     public void tamano(final EscuchadorTamano escuchador) {
         hampos.get().addOnCompleteListener(

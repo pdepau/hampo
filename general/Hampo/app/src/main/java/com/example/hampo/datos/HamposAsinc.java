@@ -10,10 +10,10 @@ public interface HamposAsinc {
     interface EscuchadorTamano{
         void onRespuesta(long tamano);
     }
-    void elemento(String id, EscuchadorElemento escuchador);
+    void elemento(String id_jaula, EscuchadorElemento escuchador);
     void anade(Hampo hampo);
     String nuevo();
-    void borrar(String id);
-    void actualiza(String id, Hampo hampo);
+    void borrar(String id_jaula);
+    void actualiza(String id_jaula, Hampo hampo);
     void tamano(EscuchadorTamano escuchador);
 }
