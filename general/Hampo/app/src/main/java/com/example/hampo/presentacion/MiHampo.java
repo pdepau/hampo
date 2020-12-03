@@ -1,11 +1,15 @@
 package com.example.hampo.presentacion;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.hampo.Aplicacion;
@@ -49,6 +53,9 @@ public class MiHampo extends AppCompatActivity {
     private ConstraintLayout totalActividad;
     private ConstraintLayout totalBebida;
 
+    private CardView botonEditar;
+    private CardView botonBorrar;
+
     private Hampo h;
     private Lectura lectura;
 
@@ -72,6 +79,25 @@ public class MiHampo extends AppCompatActivity {
         totalComida = findViewById(R.id.fondoComida);
         totalActividad = findViewById(R.id.fondoActividad);
         totalBebida = findViewById(R.id.fondoBebida);
+
+        botonEditar = findViewById(R.id.botonEditar);
+        botonBorrar = findViewById(R.id.botonBorrar);
+
+
+        botonEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lanzarEditar(v);
+            }
+        });
+
+
+        botonBorrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lanzarBorrar(v);
+            }
+        });
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -165,6 +191,18 @@ public class MiHampo extends AppCompatActivity {
         ConstraintLayout.LayoutParams lpB = (ConstraintLayout.LayoutParams) progresoBebida.getLayoutParams();
         lpB.width = porcentajeB;
         progresoBebida.setLayoutParams(lpB);
+
+    }
+
+    private void lanzarEditar(View view){
+        Intent i = new Intent(view.getContext(),CreateHampoActivity.class);
+        startActivity(i);
+
+    }
+
+    private void lanzarBorrar(View view){
+        //Intent i = new Intent(view.getContext(),CreateHampoActivity.class);
+        //startActivity(i);
 
     }
 
