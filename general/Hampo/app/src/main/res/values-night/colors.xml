@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6994D8</color>
-    <color name="colorPrimaryDark">#2C3D59</color>
+    <color name="colorPrimaryDark">#36393F</color>
     <color name="colorAccent">#E3B176</color>
     <color name="femaleColor">#F49EB2</color>
     <color name="maleColor">#8EF6F6</color>
@@ -9,6 +9,5 @@
     <color name="colorAccent3">#e74875</color>
     <color name="colorIlum">#eed633</color>
     <color name="colorActi">#debe79</color>
-    <color name="colorFondoHampo">#FFFAEB</color>
-
+    <color name="colorFondoHampo">#40444B</color>
 </resources>

@@ -7,9 +7,11 @@
             android:key="notificaciones"
             android:title="@string/noti"
             android:summary="@string/notiDesc"/>
-        <Preference
-            android:key="cancion_noti"
-            android:title="@string/cancion" />
+        <RingtonePreference
+            android:key="ringtone"
+            android:showDefault="true"
+            android:showSilent="true"
+            android:summary="@string/cancion" />
 
     </PreferenceCategory>
 
@@ -20,21 +22,19 @@
         android:title="@string/musica" />
 
     <SwitchPreference
-        android:key="oscuro"
+        android:key="tema"
         android:title="@string/temaOsc"
         android:summary="@string/temaOscDesc"/>
 
-    <ListPreference
-        android:key="idiomas"
-        android:title="@string/idioma"
-        android:summary="@string/idiomaDesc"
-        android:entries="@array/idiomas"
-        android:entryValues="@array/idiomasValores"
-        android:defaultValue="0"/>
     <Preference
         android:key="feedback"
         android:title="@string/feedback"
-        android:summary="@string/feedbackDesc"/>
+        android:summary="@string/feedbackDesc" />
+        <Preference
+            android:key="privacy"
+            android:title="@string/privacy"></Preference>
     </PreferenceCategory>
+
+
 
 </PreferenceScreen>

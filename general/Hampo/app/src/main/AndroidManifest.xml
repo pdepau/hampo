@@ -16,27 +16,32 @@
 
         <activity
             android:name=".presentacion.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
         </activity>
 
         <activity android:name=".presentacion.LoginActivity">
         </activity>
-        <activity android:name=".presentacion.MiHampo">
+        <activity android:name=".presentacion.MiHampo"
+            android:theme="@style/Theme.AppCompat.DayNight">
         </activity>
-        <activity android:name=".presentacion.PreferenciasActivity">
+        <activity android:name=".presentacion.PreferenciasActivity"
+            android:theme="@style/Theme.AppCompat.DayNight">
 
         </activity>
         <activity
-            android:name=".presentacion.CustomLoginActivity">
+            android:name=".presentacion.CustomLoginActivity"
+            android:theme="@style/Theme.AppCompat.DayNight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentacion.CreateHampoActivity">
+        <activity android:name=".presentacion.CreateHampoActivity"
+            android:theme="@style/Theme.AppCompat.DayNight">
         </activity>
-        <activity android:name=".presentacion.GpsActivity">
+        <activity android:name=".presentacion.GpsActivity"
+            android:theme="@style/Theme.AppCompat.DayNight">
         </activity>
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -48,6 +53,8 @@
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <service android:name=".ServicioMusica" />
+
     </application>
 
 </manifest>

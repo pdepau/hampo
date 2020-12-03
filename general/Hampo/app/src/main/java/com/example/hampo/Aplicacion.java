@@ -17,7 +17,7 @@ public class Aplicacion extends Application {
     public AdapterHamposFirestoreUI adaptador;
 
     public FirebaseAuth auth;
-    public String id;
+    private static String id;
 
 
     @Override
@@ -33,4 +33,11 @@ public class Aplicacion extends Application {
                 .Builder<Hampo>().setQuery(query, Hampo.class).build();
         adaptador = new AdapterHamposFirestoreUI(opciones, this);
     }
+
+    public static String getId() {
+        return id;
+    }
+
+
+
 }

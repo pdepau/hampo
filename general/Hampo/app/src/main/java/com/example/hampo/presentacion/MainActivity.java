@@ -2,6 +2,7 @@ package com.example.hampo.presentacion;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -11,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.hampo.R;
+import com.example.hampo.ServicioMusica;
 import com.example.hampo.casos_uso.CasosUsoActividades;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,9 +50,21 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
+        //preferencias
+
+        if(pref.getBoolean("tema", false))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else if(!pref.getBoolean("tema", false))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         //Musica
-        mp = MediaPlayer.create(this, R.raw.audio);
-        mp.start();
+
+        if(pref.getBoolean("musica", true))
+            startService(new Intent(MainActivity.this,
+                    ServicioMusica.class));
+        else if(!pref.getBoolean("musica", true))
+            stopService(new Intent(MainActivity.this,
+                    ServicioMusica.class));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -121,13 +136,12 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override protected void onResume() {
         super.onResume();
-        mp.start();
+
     }
     @Override protected void onPause() {
         super.onPause();
     }
     @Override protected void onStop() {
-        mp.pause();
         super.onStop();
     }
     @Override protected void onRestart() {

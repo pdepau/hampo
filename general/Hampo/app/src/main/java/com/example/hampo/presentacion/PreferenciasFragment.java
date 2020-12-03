@@ -10,4 +10,5 @@ public class PreferenciasFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferencias);
     }
+
 }
