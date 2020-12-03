@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hampo.modelo.Hampo;
@@ -44,7 +45,7 @@ public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolder
 
     public static class ViewHolderHampos extends RecyclerView.ViewHolder {
 
-        TextView nombre, comida, bebida;
+        TextView nombre;
         ImageView foto;
 
         public ViewHolderHampos(@NonNull View itemView) {
