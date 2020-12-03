@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.hampo.Aplicacion;
 import com.example.hampo.modelo.Hampo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,10 +17,10 @@ public class HamposFirestore implements HamposAsinc {
     private CollectionReference hampos;
     public HamposFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        hampos = db.collection("Hampos");
+        hampos = db.collection(Aplicacion.getId());
     }
-    public void elemento(String id, final EscuchadorElemento escuchador) {
-        hampos.document(id).get().addOnCompleteListener(
+    public void elemento(String id_jaula, final EscuchadorElemento escuchador) {
+        hampos.document(id_jaula).get().addOnCompleteListener(
                 new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -34,7 +35,7 @@ public class HamposFirestore implements HamposAsinc {
                 });
     }
     public void anade(Hampo hampo) {
-        hampos.document().set(hampo); //o lugares.add(lugar);
+        hampos.document().set(hampo);
     }
     public String nuevo() {
         return hampos.document().getId();
