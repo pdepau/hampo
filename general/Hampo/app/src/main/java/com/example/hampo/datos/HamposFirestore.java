@@ -1,4 +1,4 @@
-package com.example.hampo.datos;
+ package com.example.hampo.datos;
 
 import android.util.Log;
 
@@ -15,8 +15,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class HamposFirestore implements HamposAsinc {
     private CollectionReference hampos;
+    public FirebaseFirestore db;
     public HamposFirestore() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         hampos = db.collection(Aplicacion.getId());
     }
     public void elemento(String id, final EscuchadorElemento escuchador) {

@@ -195,7 +195,8 @@ public class MiHampo extends AppCompatActivity {
     }
 
     private void lanzarEditar(View view){
-        Intent i = new Intent(view.getContext(),CreateHampoActivity.class);
+        Intent i = new Intent(view.getContext(),EditHampoActivity.class);
+        i.putExtra("idJaula","taDVh1M7JolXGXCDziQn");
         startActivity(i);
 
     }
@@ -203,7 +204,8 @@ public class MiHampo extends AppCompatActivity {
     private void lanzarBorrar(View view){
         //Intent i = new Intent(view.getContext(),CreateHampoActivity.class);
         //startActivity(i);
-
+        hampo.document(idJaula).delete();
+        finish();
     }
 
 }

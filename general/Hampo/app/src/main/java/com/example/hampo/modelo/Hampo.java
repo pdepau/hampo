@@ -5,14 +5,16 @@ public class Hampo {
     private String uriFoto;
     private String idUser;
     private String raza;
+    private String sex;
 
     public Hampo(){}
 
-    public Hampo(String nombre, String uriFoto,  String idUser, String raza) {
+    public Hampo(String nombre, String uriFoto,  String idUser, String raza, String sex) {
         this.nombre = nombre;
         this.uriFoto = uriFoto;
         this.idUser = idUser;
         this.raza = raza;
+        this.sex = sex;
     }
 
     public String getNombre() {
@@ -45,5 +47,13 @@ public class Hampo {
 
     public void setRaza(String raza) {
         this.raza = raza;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 }

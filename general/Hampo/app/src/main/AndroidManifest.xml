@@ -23,12 +23,17 @@
         </activity>
 
         <activity
+            android:name=".presentacion.EditHampoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity
             android:name=".presentacion.LoginActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentacion.MiHampo"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.DayNight"></activity>
+            android:theme="@style/Theme.AppCompat.DayNight" />
         <activity
             android:name=".presentacion.PreferenciasActivity"
             android:screenOrientation="portrait"

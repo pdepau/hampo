@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements MqttCallback {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseDataSensors firebaseDataSensors = new FirebaseDataSensors();
+        //FirebaseDataSensors firebaseDataSensors = new FirebaseDataSensors();
         crearConexionMQTT();
         escucharDeTopicMQTT("luz/casa");
         //UART = new ArduinoUART("UART0", 9600);
