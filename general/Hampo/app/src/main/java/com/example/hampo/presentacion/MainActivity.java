@@ -1,5 +1,24 @@
 package com.example.hampo.presentacion;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.NdefFormatable;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -10,17 +29,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
+import com.example.hampo.Aplicacion;
 import com.example.hampo.R;
 import com.example.hampo.ServicioMusica;
 import com.example.hampo.casos_uso.CasosUsoActividades;
@@ -29,6 +38,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.UnsupportedEncodingException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
 
+    NfcAdapter nfcAdapter;
+    public String mensaje;
+    private FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         pref = PreferenceManager.getDefaultSharedPreferences(this);
+         db = FirebaseFirestore.getInstance();
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         //preferencias
 
@@ -134,12 +154,19 @@ public class MainActivity extends AppCompatActivity {
     @Override protected void onStart(){
         super.onStart();
     }
-    @Override protected void onResume() {
+    @Override
+    protected  void onResume(){
         super.onResume();
 
+
+       enableForegroundDispatchSystem();
     }
-    @Override protected void onPause() {
+
+    @Override
+    protected  void onPause(){
         super.onPause();
+
+        disableForegroundDispatchSystem();
     }
     @Override protected void onStop() {
         super.onStop();
@@ -151,6 +178,130 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+   @Override
+    protected  void onNewIntent(final Intent intent){
+        super.onNewIntent(intent);
 
+        if(intent.hasExtra(nfcAdapter.EXTRA_TAG))
+        {
+
+
+
+            Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+
+
+            if(parcelables != null && parcelables.length > 0)
+            {
+                readTextFromMessage((NdefMessage) parcelables[0]);
+                Toast.makeText(MainActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+                DocumentReference existe = db.collection(Aplicacion.getId()).document(mensaje);
+                existe.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        if(task.isSuccessful()){
+                            DocumentSnapshot document = task.getResult();
+                            if(document.exists()){
+                                Intent i = new Intent(MainActivity.this, MiHampo.class);
+                                i.putExtra("id", mensaje);
+                                startActivity(i);
+                            } else {
+                                Intent i = new Intent(MainActivity.this, CreateHampoActivity.class);
+                                i.putExtra("id", mensaje);
+                                startActivity(i);
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
+
+            }else{
+                Toast.makeText(MainActivity.this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
+            }
+
+
+
+
+
+        }
+    }
+
+    private void readTextFromMessage(NdefMessage ndefMessage) {
+
+        NdefRecord[] ndefRecords = ndefMessage.getRecords();
+
+        if(ndefRecords != null && ndefRecords.length>0){
+
+            NdefRecord ndefRecord = ndefRecords[0];
+
+            String tagContent = getTextFromNdefRecord(ndefRecord);
+
+
+            mensaje = tagContent;
+
+
+        }else
+        {
+            Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void enableForegroundDispatchSystem(){
+
+        Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, 0);
+        IntentFilter[] intentFilters = new IntentFilter[]{};
+
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
+
+
+    }
+
+    private void disableForegroundDispatchSystem(){
+        nfcAdapter.disableForegroundDispatch(this);
+    }
+
+    private void formatTag(Tag tag, NdefMessage ndefMessage){
+        try{
+
+            NdefFormatable ndefFormatable = NdefFormatable.get(tag);
+            if(ndefFormatable == null){
+                Toast.makeText(this, "Tag is not ndef formatable", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            ndefFormatable.connect();
+            ndefFormatable.format(ndefMessage);
+            ndefFormatable.close();
+        }catch (Exception e){
+            Log.e("FormatTag", e.getMessage());
+
+        }
+
+    }
+
+
+
+
+
+
+    public String getTextFromNdefRecord(NdefRecord ndefRecord)
+    {
+        String tagContent = null;
+        try {
+            byte[] payload = ndefRecord.getPayload();
+            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+            int languageSize = payload[0] & 0063;
+            tagContent = new String(payload, languageSize + 1,
+                    payload.length - languageSize - 1, textEncoding);
+
+        } catch (UnsupportedEncodingException e) {
+            Log.e("getTextFromNdefRecord", e.getMessage(), e);
+        }
+        return tagContent;
+    }
 
 }

@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,14 +14,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.hampo.Aplicacion;
 import com.example.hampo.R;
-import com.example.hampo.datos.HamposAsinc;
-import com.example.hampo.datos.HamposFirestore;
-import com.example.hampo.datos.LecturaFirestore;
 import com.example.hampo.modelo.Hampo;
 import com.example.hampo.modelo.Lectura;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -166,7 +162,7 @@ public class MiHampo extends AppCompatActivity {
 
 
 
-
+        Toast.makeText(MiHampo.this, idJaula, Toast.LENGTH_SHORT).show();
 
     }
 

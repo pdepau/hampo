@@ -2,7 +2,6 @@ package com.example.hampo;
 
 import android.app.Application;
 
-import com.example.hampo.AdapterHamposFirestoreUI;
 import com.example.hampo.datos.HamposAsinc;
 import com.example.hampo.datos.HamposFirestore;
 import com.example.hampo.modelo.Hampo;
@@ -26,6 +25,12 @@ public class Aplicacion extends Application {
         FirebaseApp.initializeApp(this);
         auth = FirebaseAuth.getInstance();
         id = auth.getUid();
+        /*if(auth.getCurrentUser() != null){
+               id = auth.getUid();
+        }else{
+            id = "9KP7riFKLTaFM1trEhPh5RUzA553";
+        }
+*/
         hampos = new HamposFirestore();
         Query query = FirebaseFirestore.getInstance()
                 .collection(id);
