@@ -3,16 +3,14 @@ package com.example.hampo.modelo;
 public class Hampo {
     private String nombre;
     private String uriFoto;
-    private String idUser;
     private String raza;
     private String sex;
 
     public Hampo(){}
 
-    public Hampo(String nombre, String uriFoto,  String idUser, String raza, String sex) {
+    public Hampo(String nombre, String uriFoto, String raza, String sex) {
         this.nombre = nombre;
         this.uriFoto = uriFoto;
-        this.idUser = idUser;
         this.raza = raza;
         this.sex = sex;
     }
@@ -31,14 +29,6 @@ public class Hampo {
 
     public void setUriFoto(String uriFoto) {
         this.uriFoto = uriFoto;
-    }
-
-    public String getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
     }
 
     public String getRaza() {

@@ -159,14 +159,14 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
 
-       enableForegroundDispatchSystem();
+       //enableForegroundDispatchSystem();
     }
 
     @Override
     protected  void onPause(){
         super.onPause();
 
-        disableForegroundDispatchSystem();
+        //disableForegroundDispatchSystem();
     }
     @Override protected void onStop() {
         super.onStop();

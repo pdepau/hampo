@@ -382,7 +382,7 @@ public class CreateHampoActivity extends AppCompatActivity {
                     downloadUri = task.getResult();
                     Log.d("Subirfoto", downloadUri.toString());
                     //Creo el hampo una vez tengo la uri de descargar (asincrona)
-                    Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), downloadUri.toString(), Aplicacion.getId(), String.valueOf(spinnerSelectedItem), sexOptionSelected);
+                    Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), downloadUri.toString(), String.valueOf(spinnerSelectedItem), sexOptionSelected);
                     db.anade(hampoToAdd);
                     finish();
                 } else {

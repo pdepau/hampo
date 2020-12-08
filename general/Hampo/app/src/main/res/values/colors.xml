@@ -10,5 +10,12 @@
     <color name="colorIlum">#eed633</color>
     <color name="colorActi">#debe79</color>
     <color name="colorFondoHampo">#FFFAEB</color>
+    <color name="colorDetalleMiHampo">#E9E9E9</color>
+    <color name="colorProgresoComidaS">#E3B176</color>
+    <color name="colorProgresoComidaE">#E7C7A8</color>
+    <color name="colorProgresoBebidaS">#6A96D7</color>
+    <color name="colorProgresoBebidaE">#75D6FF</color>
+    <color name="colorProgresoActividadS">#B8D654</color>
+    <color name="colorProgresoActividadE">#C3E359</color>
 
 </resources>
