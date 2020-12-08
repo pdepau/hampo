@@ -7,6 +7,6 @@ public interface LecturaAsinc {
     interface EscuchadorElemento{
         void onRespuesta(Lectura lectura);
     }
-    void ultimaLectura(String id_jaula, LecturaAsinc.EscuchadorElemento escuchador);
+    void ultimaLectura(String id, String id_jaula, LecturaAsinc.EscuchadorElemento escuchador);
 
 }

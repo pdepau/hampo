@@ -78,7 +78,7 @@ public class MiHampo extends AppCompatActivity {
 
 
     private StorageReference mStorageRef;
-    private HamposFirestore hampoDb = new HamposFirestore();
+    private HamposFirestore hampoDb;
     private Hampo h = new Hampo();
     private CasosUsoHampo cuh;
 
@@ -89,7 +89,9 @@ public class MiHampo extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         idJaula = extras.getString("id");
-        id = Aplicacion.getId();
+        id = ((Aplicacion)getApplication()).id;
+        hampoDb = new HamposFirestore(id);
+
 
         nombre = findViewById(R.id.nombreHampo);
         raza = findViewById(R.id.razaHampo);
@@ -300,7 +302,7 @@ public class MiHampo extends AppCompatActivity {
 
 
     public void getRazas(final String nombreRaza) {
-        HamposFirestore db = new HamposFirestore();
+        HamposFirestore db = new HamposFirestore(id);
         db.db.collection("raza").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

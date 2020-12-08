@@ -4,7 +4,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.hampo.Aplicacion;
 import com.example.hampo.modelo.Hampo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,9 +15,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class HamposFirestore implements HamposAsinc {
     private CollectionReference hampos;
     public FirebaseFirestore db;
-    public HamposFirestore() {
+
+    public HamposFirestore(String id) {
         db = FirebaseFirestore.getInstance();
-        hampos = db.collection(Aplicacion.getId());
+        hampos = db.collection(id);
     }
     public void elemento(String id, final EscuchadorElemento escuchador) {
         hampos.document(id).get().addOnCompleteListener(

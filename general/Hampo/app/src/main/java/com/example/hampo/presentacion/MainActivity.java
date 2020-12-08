@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -32,7 +31,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.hampo.Aplicacion;
 import com.example.hampo.R;
 import com.example.hampo.ServicioMusica;
-import com.example.hampo.casos_uso.CasosUsoActividades;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,15 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    MediaPlayer mp;
-
-    private CasosUsoActividades usoActividades;
-
     private SharedPreferences pref;
 
     NfcAdapter nfcAdapter;
     public String mensaje;
     private FirebaseFirestore db;
+    private String id;
 
 
     @Override
@@ -67,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-         db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        id = ((Aplicacion)getApplication()).id;
 
         //preferencias
 
@@ -78,13 +74,14 @@ public class MainActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         //Musica
-
-        if(pref.getBoolean("musica", true))
-            startService(new Intent(MainActivity.this,
-                    ServicioMusica.class));
-        else if(!pref.getBoolean("musica", true))
-            stopService(new Intent(MainActivity.this,
-                    ServicioMusica.class));
+        if(id!=null) {
+            if (pref.getBoolean("musica", true))
+                startService(new Intent(MainActivity.this,
+                        ServicioMusica.class));
+            else if (!pref.getBoolean("musica", true))
+                stopService(new Intent(MainActivity.this,
+                        ServicioMusica.class));
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -100,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
 
 
     }
@@ -153,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override protected void onStart(){
         super.onStart();
+        if(id==null){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
     }
     @Override
     protected  void onResume(){
@@ -165,8 +164,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected  void onPause(){
         super.onPause();
-
-        //disableForegroundDispatchSystem();
+        stopService(new Intent(MainActivity.this,
+                ServicioMusica.class));
+        disableForegroundDispatchSystem();
     }
     @Override protected void onStop() {
         super.onStop();
@@ -184,9 +184,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(intent.hasExtra(nfcAdapter.EXTRA_TAG))
         {
-
-
-
             Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 
 
@@ -194,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 readTextFromMessage((NdefMessage) parcelables[0]);
                 Toast.makeText(MainActivity.this, mensaje, Toast.LENGTH_SHORT).show();
-                DocumentReference existe = db.collection(Aplicacion.getId()).document(mensaje);
+                DocumentReference existe = db.collection(id).document(mensaje);
                 existe.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {

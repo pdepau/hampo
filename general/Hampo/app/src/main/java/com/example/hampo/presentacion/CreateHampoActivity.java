@@ -54,15 +54,18 @@ public class CreateHampoActivity extends AppCompatActivity {
     private Uri uriUltimaFoto;
     private ConstraintLayout layout;
     private int spinnerSelectedItem = -1;
-    HamposFirestore db = new HamposFirestore();
+    private HamposFirestore db;
     private StorageReference mStorageRef;
     private Uri downloadUri;
     private EditText nombreEditText;
     private String sexOptionSelected;
+    private String id;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_hampo);
+        id = ((Aplicacion)getApplication()).id;
+        db = new HamposFirestore(id);
         nombreEditText = findViewById(R.id.editTextNombre);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         getRazas();
@@ -361,7 +364,7 @@ public class CreateHampoActivity extends AppCompatActivity {
     //Sube la foto a fire storage y obtiene la download URI
     public void subirImagenDeHampo(Uri uriFoto) {
         Uri file = uriFoto;
-        final StorageReference riversRef = mStorageRef.child("hampoimages/" + Aplicacion.getId() + ".jpg");
+        final StorageReference riversRef = mStorageRef.child("hampoimages/" + id + ".jpg");
         UploadTask uploadTask = riversRef.putFile(file);
 
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {

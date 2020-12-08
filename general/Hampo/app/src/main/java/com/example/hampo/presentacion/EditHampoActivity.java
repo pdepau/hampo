@@ -54,7 +54,7 @@ import java.util.HashMap;
 public class EditHampoActivity extends AppCompatActivity {
 
     private String idJaula;
-    private HamposFirestore hampoDb = new HamposFirestore();
+    private HamposFirestore hampoDb;
     private EditText nombreEditText;
     private String sexOptionSelected;
     private ConstraintLayout layout;
@@ -65,10 +65,13 @@ public class EditHampoActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private Spinner spinnerRaza;
     private Button buttonEditHampo;
+    private String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_hampo);
+        id = ((Aplicacion)getApplication()).id;
+        hampoDb= new HamposFirestore(id);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         buttonEditHampo = findViewById(R.id.acceptBtn);
         buttonEditHampo.setText(R.string.edit_btn_hampo);
@@ -344,7 +347,7 @@ public class EditHampoActivity extends AppCompatActivity {
     //Sube la foto a fire storage y obtiene la download URI
     public void subirImagenDeHampo(Uri uriFoto) {
         Uri file = uriFoto;
-        final StorageReference riversRef = mStorageRef.child("hampoimages/" + Aplicacion.getId() + ".jpg");
+        final StorageReference riversRef = mStorageRef.child("hampoimages/" + id + ".jpg");
         UploadTask uploadTask = riversRef.putFile(file);
 
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
