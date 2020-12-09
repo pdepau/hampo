@@ -40,11 +40,12 @@ public class MainActivity extends Activity implements MqttCallback {
     int dataSize = 8;
     String dataRAW = "";
     boolean fullDataReaded;
+    private FirebaseDataController firebaseDb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //FirebaseDataSensors firebaseDataSensors = new FirebaseDataSensors();
+        firebaseDb = new FirebaseDataController();
         crearConexionMQTT();
         escucharDeTopicMQTT("luz/casa");
         //UART = new ArduinoUART("UART0", 9600);
@@ -181,6 +182,7 @@ public class MainActivity extends Activity implements MqttCallback {
                 Log.e("UART", "DataRAW = " + dataRAW);
                 Log.e("UART", "DataFormatted =" + formatToJSON(dataRAW));
                 convertToJSON(formatToJSON(dataRAW));
+
             }
             // Continue listening for more interrupts
             return true;
@@ -243,11 +245,12 @@ public class MainActivity extends Activity implements MqttCallback {
         //int str = uart.read(buffer,maxCount);
     }
 
-    public static void convertToJSON(String strToConvert) {
+    public void convertToJSON(String strToConvert) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             SensorsData datos = objectMapper.readValue(strToConvert, SensorsData.class);
             Log.e("UART", "DATOS OBJETO = " + datos.toString());
+            firebaseDb.sendSensorsData(datos);
         } catch (IOException e) {
             e.printStackTrace();
         }

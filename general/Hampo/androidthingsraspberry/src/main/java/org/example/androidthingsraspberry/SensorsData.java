@@ -19,14 +19,20 @@ public class SensorsData {
     public String bebederoCm;
     @JsonProperty("ComederoCm")
     public String comederoCm;
+    @JsonProperty("MetrosRecorridos")
+    public String metrosRecorridos;
+    //Timestamp on miliseconds
+    private long timeMilis;
 
-    public SensorsData(String temperatura, String humedad, String movimiento, String luminosidad, String bebederoCm, String comederoCm) {
+    public SensorsData(String temperatura, String humedad, String movimiento, String luminosidad, String bebederoCm, String comederoCm, String metrosRecorridos) {
         this.temperatura = temperatura;
         this.humedad = humedad;
         this.movimiento = movimiento;
         this.luminosidad = luminosidad;
         this.bebederoCm = bebederoCm;
         this.comederoCm = comederoCm;
+        this.metrosRecorridos = metrosRecorridos;
+        this.timeMilis = System.currentTimeMillis();
     }
 
     public SensorsData(){
@@ -83,13 +89,15 @@ public class SensorsData {
 
     @Override
     public String toString() {
-        return "Datos{" +
+        return "SensorsData{" +
                 "temperatura='" + temperatura + '\'' +
                 ", humedad='" + humedad + '\'' +
                 ", movimiento='" + movimiento + '\'' +
                 ", luminosidad='" + luminosidad + '\'' +
                 ", bebederoCm='" + bebederoCm + '\'' +
                 ", comederoCm='" + comederoCm + '\'' +
+                ", metrosRecorridos='" + metrosRecorridos + '\'' +
+                ", timeMilis=" + timeMilis +
                 '}';
     }
 }
