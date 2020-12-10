@@ -11,8 +11,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-import com.example.hampo.Aplicacion;
-import com.example.hampo.casos_uso.CasosUsoHampo;
+import com.bumptech.glide.Glide;
 import com.example.hampo.modelo.Hampo;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -70,7 +69,9 @@ public class AdapterHamposFirestoreUI extends
 
 
         holder.nombre.setText(hampo.getNombre());
-        holder.foto.setImageResource(R.drawable.foto_remi);
+        Glide.with(context)
+                .load(hampo.getUriFoto())
+                .into(holder.foto);
         holder.foto.setScaleType(ImageView.ScaleType.FIT_START);
         personalizaNotificacion(holder, hampo);
 

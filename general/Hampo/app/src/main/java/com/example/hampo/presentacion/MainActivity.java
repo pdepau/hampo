@@ -258,7 +258,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void disableForegroundDispatchSystem(){
-        nfcAdapter.disableForegroundDispatch(this);
+        if(nfcAdapter!=null){
+            nfcAdapter.disableForegroundDispatch(this);
+        }
     }
 
     private void formatTag(Tag tag, NdefMessage ndefMessage){
