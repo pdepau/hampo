@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.bilal.androidthingscameralib.InitializeCamera;
+import com.bilal.androidthingscameralib.OnPictureAvailableListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.things.pio.PeripheralManager;
 import com.google.android.things.pio.UartDevice;
@@ -29,7 +31,7 @@ import java.nio.charset.StandardCharsets;
 
 import static org.example.comun.MQTT.topicRoot;
 
-public class MainActivity extends Activity implements MqttCallback {
+public class MainActivity extends Activity implements MqttCallback, OnPictureAvailableListener {
     // UART Device Name
     private static final String UART_DEVICE_NAME = "UART0";
     public UartDevice mDevice;
@@ -41,13 +43,21 @@ public class MainActivity extends Activity implements MqttCallback {
     String dataRAW = "";
     boolean fullDataReaded;
     private FirebaseDataController firebaseDb;
+    private InitializeCamera mInitializeCamera; //Instancia de la camara
+
+    /// ==================================== ACTIVITY ==============================================
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /// ====================================
+        /// ====================================
         firebaseDb = new FirebaseDataController();
+        /// ====================================
         crearConexionMQTT();
         escucharDeTopicMQTT("luz/casa");
+        /// ====================================
         //UART = new ArduinoUART("UART0", 9600);
         textViewUart = findViewById(R.id.textView1);
         PeripheralManager manager = PeripheralManager.getInstance();
@@ -60,16 +70,7 @@ public class MainActivity extends Activity implements MqttCallback {
         } catch (IOException e) {
             Log.w("UART", "Error en openUartDevice: ", e);
         }
-
     }
-
-    public void writeUartData(UartDevice uart) throws IOException {
-        String str = "k";
-        byte[] buffer = str.getBytes();
-        int count = uart.write(buffer, buffer.length);
-        Log.d("UART", "Wrote " + count + " bytes to peripheral");
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -80,7 +81,6 @@ public class MainActivity extends Activity implements MqttCallback {
             Log.w("UART", "Unable to access UART device", e);
         }
     }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -88,6 +88,24 @@ public class MainActivity extends Activity implements MqttCallback {
         mDevice.unregisterUartDeviceCallback(uartCallback);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Make sure to release the camera resources.
+        if (mInitializeCamera != null) {
+            mInitializeCamera.releaseCameraResources();
+        }
+        if (mDevice != null) {
+            try {
+                mDevice.close();
+                mDevice = null;
+            } catch (IOException e) {
+                Log.w("UART", "Unable to close UART device", e);
+            }
+        }
+    }
+
+    /// =========================================MQTT==========================================================
     //Crear conexion con el broker MQTT
     public void crearConexionMQTT() {
         try {
@@ -103,7 +121,6 @@ public class MainActivity extends Activity implements MqttCallback {
             Log.e(MQTT.TAG, "Error al conectar.", e);
         }
     }
-
     //Publicar mensaje en un topic
     public void enviarMensajeMQTT(String data, String subTopic) {
         try {
@@ -117,7 +134,6 @@ public class MainActivity extends Activity implements MqttCallback {
             Log.e(MQTT.TAG, "Error al publicar.", e);
         }
     }
-
     //Suscribirse a un topic
     public void escucharDeTopicMQTT(String subTopic) {
         try {
@@ -151,7 +167,12 @@ public class MainActivity extends Activity implements MqttCallback {
             Log.d(MQTT.TAG, "Error en message arrived callback: " + e.getMessage());
         }
     }
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken token) {
+        Log.d(MQTT.TAG, "Entrega completa");
+    }
 
+    /// ============================ UART =========================================================
     public void configureUartFrame(UartDevice uart) throws IOException {
         // Configure the UART port
         uart.setBaudrate(9600);
@@ -159,12 +180,12 @@ public class MainActivity extends Activity implements MqttCallback {
         uart.setParity(UartDevice.PARITY_NONE);
         uart.setStopBits(1);
     }
-
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken token) {
-        Log.d(MQTT.TAG, "Entrega completa");
+    public void writeUartData(UartDevice uart) throws IOException {
+        String str = "k";
+        byte[] buffer = str.getBytes();
+        int count = uart.write(buffer, buffer.length);
+        Log.d("UART", "Wrote " + count + " bytes to peripheral");
     }
-
     private UartDeviceCallback uartCallback = new UartDeviceCallback() {
         @Override
         public boolean onUartDeviceDataAvailable(UartDevice uart) {
@@ -255,18 +276,19 @@ public class MainActivity extends Activity implements MqttCallback {
             e.printStackTrace();
         }
     }
+    /// ================================ CAMARA =====================================================
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void pruebaCamara(){
+        //Recommended configurations IMAGE_WIDTH = 640px, IMAGE_HEIGHT = 480px, MAX_IMAGES = 1;
+//initializeCamera(Current Context, Reference Of OnPictureAvailableListener, IMAGE_WIDTH, IMAGE_HEIGHT, MAX_IMAGES)
+        mInitializeCamera = new InitializeCamera(this, this, 640, 480, 1);
+        mInitializeCamera.captureImage();
 
-        if (mDevice != null) {
-            try {
-                mDevice.close();
-                mDevice = null;
-            } catch (IOException e) {
-                Log.w("UART", "Unable to close UART device", e);
-            }
-        }
     }
+    @Override
+    public void onPictureAvailable(byte[] imageBytes) {
+         // CUANDO LA IMAGEN ESTA DISPONIBLE....
+    }
+    /// =====================================================================================
+
 }
