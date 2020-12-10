@@ -116,7 +116,7 @@ public class EditHampoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.VISIBLE);
-                layout.setBackgroundColor(Color.parseColor("#D8D1D0"));
+                layout.setBackgroundColor(Color.parseColor("#00000000"));
             }
         });
 
@@ -124,7 +124,7 @@ public class EditHampoActivity extends AppCompatActivity {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                layout.setBackgroundColor(Color.parseColor("#00000000"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
             }
         });
@@ -132,7 +132,7 @@ public class EditHampoActivity extends AppCompatActivity {
         findViewById(R.id.cardGaleria).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                layout.setBackgroundColor(Color.parseColor("#00000000"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 ponerDeGaleria(1);
             }
@@ -142,7 +142,7 @@ public class EditHampoActivity extends AppCompatActivity {
         findViewById(R.id.cardCamara).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                layout.setBackgroundColor(Color.parseColor("#00000000"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 uriUltimaFoto = manejadorFotoHampo();
             }
@@ -236,7 +236,7 @@ public class EditHampoActivity extends AppCompatActivity {
     }
 
     public void femaleOptionSelected() {
-        layout.setBackgroundColor(Color.parseColor("#ffffff"));
+        layout.setBackgroundColor(Color.parseColor("#00000000"));
         findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
         CardView maleCard = findViewById(R.id.maleCard);
         maleCard.setCardBackgroundColor(12);
@@ -246,7 +246,7 @@ public class EditHampoActivity extends AppCompatActivity {
     }
 
     public void maleOptionSelected() {
-        layout.setBackgroundColor(Color.parseColor("#ffffff"));
+        layout.setBackgroundColor(Color.parseColor("#00000000"));
         findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
         CardView femaleCard = findViewById(R.id.femaleCard);
         femaleCard.setCardBackgroundColor(12);

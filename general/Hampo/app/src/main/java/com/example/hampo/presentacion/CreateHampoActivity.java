@@ -77,7 +77,7 @@ public class CreateHampoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.VISIBLE);
-                layout.setBackgroundColor(Color.parseColor("#888888"));
+                layout.setBackgroundColor(Color.parseColor("#00000000"));
             }
         });
 
