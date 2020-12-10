@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hampo">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
 
     <application
         android:name="Aplicacion"
@@ -16,28 +22,54 @@
 
         <activity
             android:name=".presentacion.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
 
-        <activity android:name=".presentacion.LoginActivity">
-        </activity>
-        <activity android:name=".presentacion.MiHampo">
-        </activity>
-        <activity android:name=".presentacion.PreferenciasActivity">
-
-        </activity>
         <activity
-            android:name=".presentacion.CustomLoginActivity">
+            android:name=".presentacion.EditHampoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".presentacion.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentacion.MiHampo"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.DayNight" />
+        <activity
+            android:name=".presentacion.PreferenciasActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.DayNight"/>
+
+        <activity
+            android:name=".presentacion.CustomLoginActivity"
+            android:screenOrientation="portrait">
+            android:theme="@style/Theme.AppCompat.DayNight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentacion.CreateHampoActivity">
-        </activity>
-        <activity android:name=".presentacion.GpsActivity">
-        </activity>
+        <activity
+            android:name=".presentacion.CreateHampoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.DayNight"></activity>
+        <activity
+            android:name=".presentacion.GpsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.DayNight"></activity>
+
+
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <provider
@@ -45,9 +77,12 @@
             android:authorities="com.example.hampo"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <service android:name=".ServicioMusica" />
+
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@
     <string name="label_sex_create_hampo">Selecciona su género</string>
     <string name="cancel_btn_create_hampo">Cancelar</string>
     <string name="create_btn_create_hampo">Crear hampo</string>
+    <string name="edit_btn_hampo">Editar hampo</string>
     <string name="label_foto_create_hampo">Añade una foto de tu hampo</string>
     <string name="textViewSelectPic">Selecciona una opción</string>
 
@@ -35,6 +36,7 @@
     <string name="notiDesc">Activar/Desactivar notificaciones de la aplicación</string>
     <string name="feedback">Envia feedback</string>
     <string name="feedbackDesc">Reporta algún fallo</string>
+    <string name="privacy">Privacidad</string>
 
 
 

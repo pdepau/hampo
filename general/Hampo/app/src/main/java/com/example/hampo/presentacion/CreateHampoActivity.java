@@ -5,39 +5,71 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 
+import com.example.hampo.Aplicacion;
 import com.example.hampo.R;
+import com.example.hampo.datos.HamposFirestore;
+import com.example.hampo.modelo.Hampo;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CreateHampoActivity extends AppCompatActivity {
 
     private ImageView imagenHampo;
     private Uri uriUltimaFoto;
+    private ConstraintLayout layout;
+    private int spinnerSelectedItem = -1;
+    private HamposFirestore db;
+    private StorageReference mStorageRef;
+    private Uri downloadUri;
+    private EditText nombreEditText;
+    private String sexOptionSelected;
+    private String id;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_hampo);
+        id = ((Aplicacion)getApplication()).id;
+        db = new HamposFirestore(id);
+        nombreEditText = findViewById(R.id.editTextNombre);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        getRazas();
+        layout = findViewById(R.id.myConstraintLayout);
         findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
         imagenHampo = findViewById(R.id.imagenHampo);
         //Cuando clica sobre el frameLayout para añadir una imagen
@@ -45,13 +77,23 @@ public class CreateHampoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.VISIBLE);
+                layout.setBackgroundColor(Color.parseColor("#D8D1D0"));
+            }
+        });
 
+        //Cuando clica sobre el layout con el desplegable visible
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
             }
         });
         //Cuando clica sobre la imagen de galeria
         findViewById(R.id.cardGaleria).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                layout.setBackgroundColor(Color.parseColor("#ffffff"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 ponerDeGaleria(1);
             }
@@ -61,12 +103,25 @@ public class CreateHampoActivity extends AppCompatActivity {
         findViewById(R.id.cardCamara).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                layout.setBackgroundColor(Color.parseColor("#ffffff"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 uriUltimaFoto = manejadorFotoHampo();
             }
         });
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        //Cuando clica sobre el boton crear hampo
+        findViewById(R.id.acceptBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //EditText nombreEditText = findViewById(R.id.editTextNombre);
+                subirImagenDeHampo(uriUltimaFoto);
+                //Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), downloadUri.toString(), Aplicacion.getId(), String.valueOf(spinnerSelectedItem));
+                //db.anade(hampoToAdd);
+                //finish();
+            }
+        });
+
+        /*
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.arrayRazasHamster, android.R.layout.simple_spinner_item);
@@ -79,7 +134,8 @@ public class CreateHampoActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // your code here
+                // guardo el item seleccinado en la variable global
+                spinnerSelectedItem = position;
                 switch (position) {
                     case 0:
                         textViewComida.setText("🍖 400 gr/dia");
@@ -105,7 +161,7 @@ public class CreateHampoActivity extends AppCompatActivity {
                 // your code here
             }
 
-        });
+        });*/
         findViewById(R.id.femaleCard).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 femaleOptionSelected(v);
@@ -197,17 +253,23 @@ public class CreateHampoActivity extends AppCompatActivity {
     }
 
     public void femaleOptionSelected(View view) {
+        layout.setBackgroundColor(Color.parseColor("#ffffff"));
+        findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
         CardView maleCard = findViewById(R.id.maleCard);
         maleCard.setCardBackgroundColor(12);
         CardView femaleCard = findViewById(R.id.femaleCard);
         femaleCard.setCardBackgroundColor(getResources().getColor(R.color.femaleColor));
+        sexOptionSelected = "female";
     }
 
     public void maleOptionSelected(View view) {
+        layout.setBackgroundColor(Color.parseColor("#ffffff"));
+        findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
         CardView femaleCard = findViewById(R.id.femaleCard);
         femaleCard.setCardBackgroundColor(12);
         CardView maleCard = findViewById(R.id.maleCard);
         maleCard.setCardBackgroundColor(getResources().getColor(R.color.maleColor));
+        sexOptionSelected = "male";
     }
 
     public void returnBtnFn(View view) {
@@ -239,6 +301,7 @@ public class CreateHampoActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 imagenHampo.setImageURI(Uri.parse(data.getDataString()));
+                uriUltimaFoto = Uri.parse(data.getDataString());
             } else {
                 Toast.makeText(this, "Foto no cargada", Toast.LENGTH_LONG).show();
             }
@@ -246,26 +309,90 @@ public class CreateHampoActivity extends AppCompatActivity {
         } else if (requestCode == 2) {
             //Log.e(Mqtt.TAG, "uri: " + uriUltimaFoto.toString());
             visualizarFoto(imagenHampo, uriUltimaFoto.toString());
-            /*
-            if (uriUltimaFoto != null) {
-                visualizarFoto(imagenHampo, uriUltimaFoto.toString());
-            } else {
-                Toast.makeText(this, "Error en captura", Toast.LENGTH_LONG).show();
-            }*/
         }
+    }
 
-        // para poner galeria imagenHampo.setImageURI(Uri.parse(data.getDataString()));
-        //Log.e(Mqtt.TAG, "uri: " + data.toString());
-        //Log.e(Mqtt.TAG, "uri: " + data.toString());
-        //Log.e(Mqtt.TAG, "uri: " + data.toString());
-        //visualizarFoto(imagenHampo,uriUltimaFoto.toString());
-        //imagenHampo.setImageURI(uriUltimaFoto);
-        /*if (requestCode == RESULTADO_GALERIA) {
-            if (resultCode == Activity.RESULT_OK) {
-                ponerDeGaleria(pos, data.getDataString(), foto);
-            } else {
-                Toast.makeText(this, "Foto no cargada",Toast.LENGTH_LONG).show();
+    public void getRazas() {
+        db.db.collection("raza").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                ArrayList<String> arrayListRazas = new ArrayList<>();
+                final HashMap<String, String> hashMapComida = new HashMap<String, String>();
+                final HashMap<String, String> hashMapBebida = new HashMap<String, String>();
+
+                int contador = 0;
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        arrayListRazas.add(document.getId());
+                        hashMapComida.put(String.valueOf(contador), document.get("comida").toString());
+                        hashMapBebida.put(String.valueOf(contador), document.get("bebida").toString());
+                        //Log.d("Razas", document.getId() + " => " + document.getData().toString());
+                        //Log.d("Razas", contador + " => " + hashMapComida.get(String.valueOf(contador)));
+                        contador++;
+                    }
+                    String[] arrayRazas = new String[arrayListRazas.size()];
+                    arrayRazas = arrayListRazas.toArray(arrayRazas);
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, arrayRazas);
+                    Spinner spinner = (Spinner) findViewById(R.id.spinnerRaza);
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(arrayAdapter);
+
+                    final TextView textViewComida = findViewById(R.id.textViewComida);
+                    final TextView textViewBebida = findViewById(R.id.textViewBebida);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                            // guardo el item seleccinado en la variable global
+                            spinnerSelectedItem = position;
+                            textViewComida.setText(hashMapComida.get(String.valueOf(position)));
+                            textViewBebida.setText(hashMapBebida.get(String.valueOf(position)));
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                } else {
+                    Log.e("Razas", "Error getting documents: ", task.getException());
+                }
             }
-        }*/
+        });
+    }
+
+    //Sube la foto a fire storage y obtiene la download URI
+    public void subirImagenDeHampo(Uri uriFoto) {
+        Uri file = uriFoto;
+        final StorageReference riversRef = mStorageRef.child("hampoimages/" + id + ".jpg");
+        UploadTask uploadTask = riversRef.putFile(file);
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                Log.d("Subirfoto", riversRef.getDownloadUrl().toString());
+                return riversRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    downloadUri = task.getResult();
+                    Log.d("Subirfoto", downloadUri.toString());
+                    //Creo el hampo una vez tengo la uri de descargar (asincrona)
+                    Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), downloadUri.toString(), String.valueOf(spinnerSelectedItem), sexOptionSelected);
+                    db.anade(hampoToAdd);
+                    finish();
+                } else {
+                    // Handle failures
+                    // ...
+                }
+            }
+        });
     }
 }

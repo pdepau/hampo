@@ -3,20 +3,16 @@ package com.example.hampo.modelo;
 public class Hampo {
     private String nombre;
     private String uriFoto;
-    private String comida;
-    private String bebida;
-    private String idUser;
     private String raza;
+    private String sex;
 
     public Hampo(){}
 
-    public Hampo(String nombre, String uriFoto, String comida, String bebida, String idUser, String raza) {
+    public Hampo(String nombre, String uriFoto, String raza, String sex) {
         this.nombre = nombre;
         this.uriFoto = uriFoto;
-        this.comida = comida;
-        this.bebida = bebida;
-        this.idUser = idUser;
         this.raza = raza;
+        this.sex = sex;
     }
 
     public String getNombre() {
@@ -35,35 +31,19 @@ public class Hampo {
         this.uriFoto = uriFoto;
     }
 
-    public String getComida() {
-        return comida;
-    }
-
-    public void setComida(String comida) {
-        this.comida = comida;
-    }
-
-    public String getBebida() {
-        return bebida;
-    }
-
-    public void setBebida(String bebida) {
-        this.bebida = bebida;
-    }
-
-    public String getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
-    }
-
     public String getRaza() {
         return raza;
     }
 
     public void setRaza(String raza) {
         this.raza = raza;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 }

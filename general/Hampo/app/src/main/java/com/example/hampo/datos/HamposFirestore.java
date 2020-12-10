@@ -1,4 +1,4 @@
-package com.example.hampo.datos;
+ package com.example.hampo.datos;
 
 import android.util.Log;
 
@@ -14,9 +14,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class HamposFirestore implements HamposAsinc {
     private CollectionReference hampos;
-    public HamposFirestore() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        hampos = db.collection("Hampos");
+    public FirebaseFirestore db;
+
+    public HamposFirestore(String id) {
+        db = FirebaseFirestore.getInstance();
+        hampos = db.collection(id);
     }
     public void elemento(String id, final EscuchadorElemento escuchador) {
         hampos.document(id).get().addOnCompleteListener(
@@ -34,16 +36,16 @@ public class HamposFirestore implements HamposAsinc {
                 });
     }
     public void anade(Hampo hampo) {
-        hampos.document().set(hampo); //o lugares.add(lugar);
+        hampos.document().set(hampo);
     }
     public String nuevo() {
         return hampos.document().getId();
     }
-    public void borrar(String id) {
-        hampos.document(id).delete();
+    public void borrar(String id_jaula) {
+        hampos.document(id_jaula).delete();
     }
-    public void actualiza(String id, Hampo hampo) {
-        hampos.document(id).set(hampo);
+    public void actualiza(String id_jaula, Hampo hampo) {
+        hampos.document(id_jaula).set(hampo);
     }
     public void tamano(final EscuchadorTamano escuchador) {
         hampos.get().addOnCompleteListener(

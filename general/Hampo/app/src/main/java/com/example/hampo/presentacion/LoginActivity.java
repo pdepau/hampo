@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hampo.Aplicacion;
 import com.example.hampo.R;
 import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
-
+    FirebaseUser usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+       usuario =FirebaseAuth.getInstance().getCurrentUser();
 
         AuthMethodPickerLayout customLayout = new AuthMethodPickerLayout
                 .Builder(R.layout.login)
@@ -36,13 +37,17 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         if (usuario != null) {
+
             Toast.makeText(this, "inicia sesión: " + usuario.getDisplayName() + " - " + usuario.getEmail(), Toast.LENGTH_LONG).show();
             Intent i = new Intent(this, CustomLoginActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            ((Aplicacion)getApplication()).id = usuario.getUid();
             startActivity(i);
+
         } else {
             List<AuthUI.IdpConfig> providers = Collections.singletonList(new AuthUI.IdpConfig.GoogleBuilder().build());
             startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers).setAuthMethodPickerLayout(customLayout).setTheme(R.style.AppThemeFirebaseAuth).setIsSmartLockEnabled(true).build(), RC_SIGN_IN);
+
         }
     }
 
@@ -53,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
                 login();
+                //((Aplicacion)getApplication()).id = usuario.getUid();
+                ((Aplicacion)getApplication()).refrescar();
                 finish();
             } else {
                 String s;
