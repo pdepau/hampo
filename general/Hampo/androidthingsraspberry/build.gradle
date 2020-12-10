@@ -30,6 +30,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-firestore:22.0.0'
+    compile 'com.bilal:android-things-camera:1.0.0'
+
     implementation 'com.google.firebase:firebase-database:19.5.1'
     compile 'com.fasterxml.jackson.core:jackson-core:2.5.3'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.3'
