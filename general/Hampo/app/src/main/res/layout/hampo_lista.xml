@@ -48,6 +48,7 @@
             android:adjustViewBounds="false"
             android:contentDescription="fotografía"
             android:cropToPadding="false"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_menu_profile" />
     </androidx.cardview.widget.CardView>
 
