@@ -67,7 +67,7 @@
         android:id="@+id/CardViewNotificacion"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:cardBackgroundColor="@android:color/holo_red_dark"
+        app:cardBackgroundColor="#25CC00"
         app:cardCornerRadius="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
