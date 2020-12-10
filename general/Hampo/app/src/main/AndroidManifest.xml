@@ -37,7 +37,7 @@
         <activity
             android:name=".presentacion.EditHampoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/Theme.AppCompat.DayNight"/>
 
         <activity
             android:name=".presentacion.LoginActivity"

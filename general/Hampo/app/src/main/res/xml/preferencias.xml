@@ -4,9 +4,10 @@
     <PreferenceCategory android:title="@string/noti">
 
         <SwitchPreference
+            android:checked="true"
             android:key="notificaciones"
-            android:title="@string/noti"
-            android:summary="@string/notiDesc"/>
+            android:summary="@string/notiDesc"
+            android:title="@string/noti" />
         <RingtonePreference
             android:key="ringtone"
             android:showDefault="true"
@@ -16,10 +17,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Otros">
-    <CheckBoxPreference
-        android:key="musica"
-        android:summary="@string/musicaDesc"
-        android:title="@string/musica" />
+        <CheckBoxPreference
+            android:checked="true"
+            android:key="musica"
+            android:summary="@string/musicaDesc"
+            android:title="@string/musica" />
 
     <SwitchPreference
         android:key="tema"
