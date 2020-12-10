@@ -241,12 +241,12 @@ public class MainActivity extends Activity implements MqttCallback, OnPictureAva
         uart.setParity(UartDevice.PARITY_NONE);
         uart.setStopBits(1);
     }
-    public void writeUartData(UartDevice uart) throws IOException {
+  /*  public void writeUartData(UartDevice uart) throws IOException {
         String str = "k";
         byte[] buffer = str.getBytes();
         int count = uart.write(buffer, buffer.length);
         Log.d("UART", "Wrote " + count + " bytes to peripheral");
-    }
+    }*/
     private UartDeviceCallback uartCallback = new UartDeviceCallback() {
         @Override
         public boolean onUartDeviceDataAvailable(UartDevice uart) {
