@@ -24,7 +24,7 @@ public class CasosUsoMQTT implements MqttCallback {
     //Crear conexion con el broker MQTT
     public void crearConexionMQTT(String clientId) {
         try {
-            Log.i(MQTT.TAG, "Conectando al broker " + MQTT.broker);
+            Log.d(MQTT.TAG, "Conectando al broker " + MQTT.broker);
             client = new MqttClient(MQTT.broker, clientId,
                     new MemoryPersistence());
             MqttConnectOptions connOpts = new MqttConnectOptions();
@@ -44,7 +44,8 @@ public class CasosUsoMQTT implements MqttCallback {
             MqttMessage message = new MqttMessage(data.getBytes());
             message.setQos(MQTT.qos);
             message.setRetained(false);
-            client.publish(topicRoot + subTopic, message);
+            client.publish(subTopic, message);
+            //client.publish(topicRoot + subTopic, message);
         } catch (
                 MqttException e) {
             Log.e(MQTT.TAG, "Error al publicar.", e);
@@ -55,7 +56,8 @@ public class CasosUsoMQTT implements MqttCallback {
     public void escucharDeTopicMQTT(String subTopic){
         try {
             Log.i(MQTT.TAG, "Suscrito a " + topicRoot + subTopic);
-            client.subscribe(topicRoot + subTopic, MQTT.qos);
+            //client.subscribe(topicRoot + subTopic, MQTT.qos);
+            client.subscribe(subTopic, MQTT.qos);
             client.setCallback(this);
         } catch (MqttException e) {
             Log.e(MQTT.TAG, "Error al suscribir.", e);

@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.hampo.Aplicacion;
 import com.example.hampo.R;
 import com.example.hampo.casos_uso.CasosUsoHampo;
+import com.example.hampo.casos_uso.CasosUsoMQTT;
 import com.example.hampo.datos.EscuchadorHampo;
 import com.example.hampo.datos.HamposFirestore;
 import com.example.hampo.modelo.Hampo;
@@ -81,7 +82,7 @@ public class MiHampo extends AppCompatActivity {
     private HamposFirestore hampoDb;
     private Hampo h = new Hampo();
     private CasosUsoHampo cuh;
-
+    private CasosUsoMQTT mqttController;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +90,7 @@ public class MiHampo extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         idJaula = extras.getString("id");
-        id = ((Aplicacion)getApplication()).id;
+        id = ((Aplicacion) getApplication()).id;
         hampoDb = new HamposFirestore(id);
 
 
@@ -98,6 +99,8 @@ public class MiHampo extends AppCompatActivity {
         imagenHampo = findViewById(R.id.imagenHampo);
 
         cuh = new CasosUsoHampo(this, ((Aplicacion) getApplication()).hampos);
+        mqttController = new CasosUsoMQTT();
+        mqttController.crearConexionMQTT("1234548612");
 
         progresoComida = findViewById(R.id.progresoComida);
         progresoActividad = findViewById(R.id.progresoActividad);
@@ -138,10 +141,12 @@ public class MiHampo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (iluminacionUV == 1) {
+                    mqttController.enviarMensajeMQTT("luzhampo/uv/on", "luzhampo/uv/on");
                     iluminacionUV--;
                     fotoBombillaUV.setImageResource(R.drawable.ic_light_bulb_uv);
                     luzUV.setText("Encendida");
                 } else {
+                    mqttController.enviarMensajeMQTT("luzhampo/uv/off", "luzhampo/uv/off");
                     iluminacionUV++;
                     fotoBombillaUV.setImageResource(R.drawable.ic_light_bulb);
                     luzUV.setText("Apagada");
@@ -160,6 +165,7 @@ public class MiHampo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //codigo para alimentar
+                mqttController.enviarMensajeMQTT("luzhampo/alimentar", "luzhampo/alimentar");
             }
         });
 
@@ -172,25 +178,25 @@ public class MiHampo extends AppCompatActivity {
                         iluminacion++;
                         fotoBombilla.setImageResource(R.drawable.ic_light_bulb);
                         tipoIluminacion.setText("Apagadas");
-
+                        mqttController.enviarMensajeMQTT("luzhampo/both/off", "luzhampo/both/off");
                         break;
                     case 1:
                         iluminacion++;
                         fotoBombilla.setImageResource(R.drawable.ic_light_bulb_on);
                         tipoIluminacion.setText("Arriba");
-
+                        mqttController.enviarMensajeMQTT("luzhampo/top/on", "luzhampo/top/on");
                         break;
                     case 2:
                         iluminacion++;
                         fotoBombilla.setImageResource(R.drawable.ic_light_bulb_on);
                         tipoIluminacion.setText("Abajo");
-
+                        mqttController.enviarMensajeMQTT("luzhampo/down/on", "luzhampo/down/on");
                         break;
                     case 3:
                         iluminacion = 0;
                         fotoBombilla.setImageResource(R.drawable.ic_light_bulb_on);
                         tipoIluminacion.setText("Ambas");
-
+                        mqttController.enviarMensajeMQTT("luzhampo/both/on", "luzhampo/both/on");
                         break;
                 }
             }
@@ -217,7 +223,7 @@ public class MiHampo extends AppCompatActivity {
 
                 // Cargo el nombre del hampo
                 nombre.setText(hampo.getNombre());
-                
+
                 // Cargo la raza del hampo
                 getRazas(hampo.getRaza());
 
@@ -316,7 +322,7 @@ public class MiHampo extends AppCompatActivity {
                     }
                     String[] arrayRazas = new String[arrayListRazas.size()];
                     arrayRazas = arrayListRazas.toArray(arrayRazas);
-                    Log.d("Coso",arrayRazas[Integer.parseInt(nombreRaza)]);
+                    Log.d("Coso", arrayRazas[Integer.parseInt(nombreRaza)]);
                     raza.setText(arrayRazas[Integer.parseInt(nombreRaza)]);
 
                 } else {

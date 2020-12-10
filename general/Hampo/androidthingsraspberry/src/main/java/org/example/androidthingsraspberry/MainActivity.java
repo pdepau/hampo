@@ -54,15 +54,25 @@ public class MainActivity extends Activity implements MqttCallback, OnPictureAva
         /// ====================================
         /// ====================================
         firebaseDb = new FirebaseDataController();
-        /// ====================================
+        UART = new ArduinoUART("UART0",9600);
+        Log.e("TEST","ANTES DE crearConexionMQTT()");
         crearConexionMQTT();
-        escucharDeTopicMQTT("luz/casa");
-        /// ====================================
+        //escucharDeTopicMQTT("luzhampo/on");
+        escucharDeTopicMQTT("luzhampo/off");
+        escucharDeTopicMQTT("luzhampo/top/on");
+        escucharDeTopicMQTT("luzhampo/down/on");
+        escucharDeTopicMQTT("luzhampo/both/on");
+        escucharDeTopicMQTT("luzhampo/both/off");
+        escucharDeTopicMQTT("luzhampo/alimentar");
+        escucharDeTopicMQTT("luzhampo/uv/on");
+        escucharDeTopicMQTT("luzhampo/uv/off");
+        escucharDeTopicMQTT("luzhampo/adiestramiento");
+
         //UART = new ArduinoUART("UART0", 9600);
         textViewUart = findViewById(R.id.textView1);
-        PeripheralManager manager = PeripheralManager.getInstance();
         try {
-            mDevice = manager.openUartDevice(UART_DEVICE_NAME);
+            //mDevice = PeripheralManager.getInstance().openUartDevice(UART_DEVICE_NAME);
+            mDevice = PeripheralManager.getInstance().openUartDevice(UART_DEVICE_NAME);
             configureUartFrame(mDevice);
             uartCallback.onUartDeviceDataAvailable(mDevice);
             writeUartData(mDevice);
@@ -71,6 +81,14 @@ public class MainActivity extends Activity implements MqttCallback, OnPictureAva
             Log.w("UART", "Error en openUartDevice: ", e);
         }
     }
+
+    public void writeUartData(UartDevice uart) throws IOException {
+        String str = "k";
+        byte[] buffer = str.getBytes();
+        int count = uart.write(buffer, buffer.length);
+        Log.d("UART", "Wrote " + count + " bytes to peripheral");
+    }
+/*
     @Override
     protected void onStart() {
         super.onStart();
@@ -81,6 +99,7 @@ public class MainActivity extends Activity implements MqttCallback, OnPictureAva
             Log.w("UART", "Unable to access UART device", e);
         }
     }
+*/
     @Override
     protected void onStop() {
         super.onStop();
@@ -137,8 +156,8 @@ public class MainActivity extends Activity implements MqttCallback, OnPictureAva
     //Suscribirse a un topic
     public void escucharDeTopicMQTT(String subTopic) {
         try {
-            Log.i(MQTT.TAG, "Suscrito a " + topicRoot + subTopic);
-            client.subscribe(topicRoot + subTopic, MQTT.qos);
+            Log.e(MQTT.TAG, "Suscrito a " + subTopic);
+            client.subscribe(subTopic, MQTT.qos);
             client.setCallback(this);
         } catch (MqttException e) {
             Log.e(MQTT.TAG, "Error al suscribir.", e);
@@ -152,13 +171,55 @@ public class MainActivity extends Activity implements MqttCallback, OnPictureAva
 
     @Override
     public void messageArrived(String topic, MqttMessage message) {
+        Log.e("mqttDebug", "message arrived");
         try {
             String payload = new String(message.getPayload());
             Log.d(MQTT.TAG, "Recibiendo: " + topic + "->" + payload);
-            if (payload.equalsIgnoreCase("ON")) {
-                Log.d(MQTT.TAG, "funcion callback");
+            if (topic.equalsIgnoreCase("luzhampo/top/on")) {
+                Log.d(MQTT.TAG, "dentro top/on");
+                UART.escribir("tt");
                 //UART.escribir("hh");
+            } else if (topic.equalsIgnoreCase("luzhampo/down/on")) {
+                Log.d(MQTT.TAG, "dentro down/on");
+                UART.escribir("ss");
+                //UART.escribir('d');
+            } else if (topic.equalsIgnoreCase("luzhampo/alimentar")) {
+                Log.d(MQTT.TAG, "dentro alimentar");
+                UART.escribir("hh");
+                //UART.escribir('b');
+            } else if (topic.equalsIgnoreCase("luzhampo/adiestramiento")) {
+                Log.d(MQTT.TAG, "dentro adiestramiento");
+                UART.escribir("aa");
+                //UART.escribir('b');
+            } else if (topic.equalsIgnoreCase("luzhampo/both/on")) {
+                Log.d(MQTT.TAG, "dentro both/on");
+                UART.escribir("pp");
+                //UART.escribir('b');
+            } else if (topic.equalsIgnoreCase("luzhampo/both/off")) {
+                Log.d(MQTT.TAG, "dentro both/off");
+                UART.escribir("qq");
+                //UART.escribir('b');
+            } else if (topic.equalsIgnoreCase("luzhampo/uv/on")) {
+                Log.d(MQTT.TAG, "dentro uv/on");
+                UART.escribir("gg");
+                //UART.escribir('b');
+            } else if (topic.equalsIgnoreCase("luzhampo/uv/off")) {
+                Log.d(MQTT.TAG, "dentro uv/off");
+                UART.escribir("ff");
+                //UART.escribir('b');
+            } else if (topic.equalsIgnoreCase("luzhampo/sendnudes")) {
+                Log.d(MQTT.TAG, "nudes");
+                UART.escribir("kk");
+                //UART.escribir('b');
             }
+
+            // Uv g on
+             // UV f off
+             // Alimentar h
+             // Obtener valores sensores k
+             // Adistramiento a
+             // Ahorro energia m on
+             // Ahorro energia n off
             //s = UART.leer();
             //Log.d(MQTT.TAG, "Recibido en uart: "+s);
 
@@ -190,7 +251,7 @@ public class MainActivity extends Activity implements MqttCallback, OnPictureAva
         @Override
         public boolean onUartDeviceDataAvailable(UartDevice uart) {
             // Read available data from the UART device
-
+            Log.e("UART", "uart data avaiable broooo");
             try {
                 readUartBuffer(uart);
             } catch (IOException e) {
