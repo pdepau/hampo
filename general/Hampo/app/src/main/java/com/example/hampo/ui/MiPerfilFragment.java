@@ -97,7 +97,7 @@ public class MiPerfilFragment extends Fragment {
 
 
         nombreUsuario = auth.getCurrentUser().getDisplayName();
-        if (nombreUsuario == null) {
+        if (nombreUsuario == null|| nombreUsuario.length()<1) {
             viewNombreUsuario.setText("Usuario");
         } else {
             viewNombreUsuario.setText(nombreUsuario);

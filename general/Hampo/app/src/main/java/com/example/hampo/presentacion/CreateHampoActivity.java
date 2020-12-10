@@ -77,7 +77,7 @@ public class CreateHampoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.VISIBLE);
-                layout.setBackgroundColor(Color.parseColor("#D8D1D0"));
+                layout.setBackgroundColor(Color.parseColor("#888888"));
             }
         });
 
@@ -85,7 +85,7 @@ public class CreateHampoActivity extends AppCompatActivity {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                layout.setBackgroundColor(Color.parseColor("#00000000"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
             }
         });
@@ -93,7 +93,7 @@ public class CreateHampoActivity extends AppCompatActivity {
         findViewById(R.id.cardGaleria).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                layout.setBackgroundColor(Color.parseColor("#00000000"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 ponerDeGaleria(1);
             }
@@ -103,7 +103,7 @@ public class CreateHampoActivity extends AppCompatActivity {
         findViewById(R.id.cardCamara).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(Color.parseColor("#ffffff"));
+                layout.setBackgroundColor(Color.parseColor("#00000000"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 uriUltimaFoto = manejadorFotoHampo();
             }
