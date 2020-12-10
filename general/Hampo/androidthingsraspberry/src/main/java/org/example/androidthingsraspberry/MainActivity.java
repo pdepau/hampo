@@ -43,14 +43,14 @@ public class MainActivity extends Activity implements MqttCallback, OnPictureAva
     String dataRAW = "";
     boolean fullDataReaded;
     private FirebaseDataController firebaseDb;
-    private InitializeCamera mInitializeCamera; //Instancia de la camara
+    private InitializeCamera mInitializeCamera;
+
 
     /// ==================================== ACTIVITY ==============================================
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         /// ====================================
         /// ====================================
         firebaseDb = new FirebaseDataController();
@@ -285,9 +285,13 @@ public class MainActivity extends Activity implements MqttCallback, OnPictureAva
         mInitializeCamera.captureImage();
 
     }
-    @Override
     public void onPictureAvailable(byte[] imageBytes) {
          // CUANDO LA IMAGEN ESTA DISPONIBLE....
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        
     }
     /// =====================================================================================
 
