@@ -32,8 +32,11 @@ public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolderHampos holder, int position) {
         holder.nombre.setText(listHampos.get(position).getNombre());
-       // holder.foto.setImageResource(listHampos.get(position).getImagenId());
-
+       /*
+        if(listHampos.get(position).getNombre() == "Pokachu"){
+            holder.notificacion.setCardBackgroundColor(3);
+        }
+        */
     }
 
 
@@ -47,11 +50,13 @@ public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolder
 
         TextView nombre;
         ImageView foto;
+        CardView notificacion;
 
         public ViewHolderHampos(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.hampoNombre);
             foto = itemView.findViewById(R.id.hampoFoto);
+            notificacion = itemView.findViewById(R.id.CardViewNotificacion);
         }
 
     }

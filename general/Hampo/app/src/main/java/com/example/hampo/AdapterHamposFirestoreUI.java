@@ -1,6 +1,7 @@
 package com.example.hampo;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +9,24 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.example.hampo.Aplicacion;
+import com.example.hampo.casos_uso.CasosUsoHampo;
 import com.example.hampo.modelo.Hampo;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class AdapterHamposFirestoreUI extends
         FirestoreRecyclerAdapter<Hampo, AdapterHampos.ViewHolderHampos> {
+
+    private String id;
+    public FirebaseAuth auth;
+
     protected View.OnClickListener onClickListener;
     protected Context context;
     public AdapterHamposFirestoreUI(
@@ -56,7 +69,42 @@ public class AdapterHamposFirestoreUI extends
         holder.nombre.setText(hampo.getNombre());
         holder.foto.setImageResource(R.drawable.foto_remi);
         holder.foto.setScaleType(ImageView.ScaleType.FIT_START);
+        personalizaNotificacion(holder, hampo);
 
+    }
+
+    public void personalizaNotificacion(final AdapterHampos.ViewHolderHampos holder,
+                                        Hampo hampo){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        id = auth.getUid();
+        Query lecturas = db.collection(id).document(getKey(0)).collection("Lecturas").orderBy("Fecha").limit(1);
+        holder.notificacion.setBackgroundResource(R.drawable.not_green);
+
+        lecturas.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().size() == 1) {
+
+                        if(Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) < 10 ||
+                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) > 30 ||
+                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Comedero").toString()) < 30 ||
+                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString()) < 30){
+                            holder.notificacion.setBackgroundResource(R.drawable.not_yellow);
+                        }
+                        if(Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) < 0 ||
+                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) > 40 ||
+                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Comedero").toString()) < 10 ||
+                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString()) < 10) {
+                            holder.notificacion.setBackgroundResource(R.drawable.not_red);
+                        }
+                    }
+                } else {
+                    Log.e("Firebase", "Error al leer", task.getException());
+                }
+            }
+        });
 
     }
 
