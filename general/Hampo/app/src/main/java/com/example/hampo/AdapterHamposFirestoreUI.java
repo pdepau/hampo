@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.example.hampo.modelo.Hampo;
@@ -18,7 +19,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -87,26 +91,46 @@ public class AdapterHamposFirestoreUI extends
             auth = FirebaseAuth.getInstance();
             id = auth.getUid();
             Query lecturas = db.collection(id).document(getKey(0)).collection("Lecturas").orderBy("Fecha").limit(1);
-
-
             lecturas.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         if (task.getResult().size() == 1) {
+                            task.getResult().getDocuments().get(0).getReference().addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                                    @Nullable FirebaseFirestoreException e) {
+                                    if (e != null) {
+                                        Log.w("TAG", "Listen failed.", e);
+                                        return;
+                                    }
 
-                            if(Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) < 10 ||
-                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) > 30 ||
-                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Comedero").toString()) < 30 ||
-                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString()) < 30){
-                                holder.notificacion.setBackgroundResource(R.drawable.not_yellow);
-                            }
-                            if(Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) < 0 ||
-                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) > 40 ||
-                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Comedero").toString()) < 10 ||
-                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString()) < 10) {
-                                holder.notificacion.setBackgroundResource(R.drawable.not_red);
-                            }
+                                    if (snapshot != null && snapshot.exists()) {
+                                        if(Integer.parseInt(snapshot.getData().get("Temperatura").toString()) < 10 ||
+                                                Integer.parseInt(snapshot.getData().get("Temperatura").toString()) > 30 ||
+                                                Integer.parseInt(snapshot.getData().get("Comedero").toString()) < 30 ||
+                                                Integer.parseInt(snapshot.getData().get("Bebedero").toString()) < 30){
+                                            holder.notificacion.setBackgroundResource(R.drawable.not_yellow);
+                                        }
+                                        if(Integer.parseInt(snapshot.getData().get("Temperatura").toString()) < 0 ||
+                                                Integer.parseInt(snapshot.getData().get("Temperatura").toString()) > 40 ||
+                                                Integer.parseInt(snapshot.getData().get("Comedero").toString()) < 10 ||
+                                                Integer.parseInt(snapshot.getData().get("Bebedero").toString()) < 10) {
+                                            holder.notificacion.setBackgroundResource(R.drawable.not_red);
+                                        }
+                                        if(Integer.parseInt(snapshot.getData().get("Temperatura").toString()) >= 10 &&
+                                                Integer.parseInt(snapshot.getData().get("Temperatura").toString()) <= 30 &&
+                                                Integer.parseInt(snapshot.getData().get("Comedero").toString()) >= 30 &&
+                                                Integer.parseInt(snapshot.getData().get("Bebedero").toString()) >= 30) {
+                                            holder.notificacion.setBackgroundResource(R.drawable.not_green);
+                                        }
+                                        //Log.d("TAG", "Current data: " + snapshot.getData());
+                                    } else {
+                                        Log.d("TAG", "Current data: null");
+                                    }
+                                }
+                            });
+
                         }
                     } else {
                         Log.e("Firebase", "Error al leer", task.getException());
