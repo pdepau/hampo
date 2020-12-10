@@ -1,6 +1,8 @@
 package com.example.hampo;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ public class AdapterHamposFirestoreUI extends
 
     private String id;
     public FirebaseAuth auth;
+    private SharedPreferences pref;
 
     protected View.OnClickListener onClickListener;
     protected Context context;
@@ -75,37 +78,40 @@ public class AdapterHamposFirestoreUI extends
 
     public void personalizaNotificacion(final AdapterHampos.ViewHolderHampos holder,
                                         Hampo hampo){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
-        id = auth.getUid();
-        Query lecturas = db.collection(id).document(getKey(0)).collection("Lecturas").orderBy("Fecha").limit(1);
+        pref = PreferenceManager.getDefaultSharedPreferences(holder.foto.getContext());
         holder.notificacion.setBackgroundResource(R.drawable.not_green);
 
-        lecturas.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult().size() == 1) {
+        if(pref.getBoolean("notificaciones", true)){
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            auth = FirebaseAuth.getInstance();
+            id = auth.getUid();
+            Query lecturas = db.collection(id).document(getKey(0)).collection("Lecturas").orderBy("Fecha").limit(1);
 
-                        if(Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) < 10 ||
-                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) > 30 ||
-                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Comedero").toString()) < 30 ||
-                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString()) < 30){
-                            holder.notificacion.setBackgroundResource(R.drawable.not_yellow);
+
+            lecturas.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().size() == 1) {
+
+                            if(Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) < 10 ||
+                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) > 30 ||
+                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Comedero").toString()) < 30 ||
+                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString()) < 30){
+                                holder.notificacion.setBackgroundResource(R.drawable.not_yellow);
+                            }
+                            if(Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) < 0 ||
+                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) > 40 ||
+                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Comedero").toString()) < 10 ||
+                                    Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString()) < 10) {
+                                holder.notificacion.setBackgroundResource(R.drawable.not_red);
+                            }
                         }
-                        if(Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) < 0 ||
-                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString()) > 40 ||
-                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Comedero").toString()) < 10 ||
-                                Integer.parseInt(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString()) < 10) {
-                            holder.notificacion.setBackgroundResource(R.drawable.not_red);
-                        }
+                    } else {
+                        Log.e("Firebase", "Error al leer", task.getException());
                     }
-                } else {
-                    Log.e("Firebase", "Error al leer", task.getException());
                 }
-            }
-        });
-
+            });
+        }
     }
-
 }
