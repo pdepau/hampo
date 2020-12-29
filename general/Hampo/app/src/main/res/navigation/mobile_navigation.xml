@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_nav_mis_hampos" />
     <fragment
         android:id="@+id/nav_mi_perfil"
-        android:name="com.example.hampo.ui.MiPerfilFragment"
+        android:name="com.example.hampo.ui.nav_perfil"
         android:label="Mi Perfil"
         tools:layout="@layout/fragment_mi_perfil" />
     <fragment

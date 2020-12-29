@@ -88,8 +88,8 @@ public class CasosUsoHampo {
     }
 
     public void visualizarFoto(Hampo hampo, ImageView imageView) {
-        if (hampo.getUriFoto() != null && !hampo.getUriFoto().isEmpty()) {
-            imageView.setImageBitmap(reduceBitmap(actividad,hampo.getUriFoto(),1024,1024));
+        if (hampo.getFoto() != null && !hampo.getFoto().isEmpty()) {
+            imageView.setImageBitmap(reduceBitmap(actividad,hampo.getFoto(),1024,1024));
         } else {
             imageView.setImageBitmap(null);
         }

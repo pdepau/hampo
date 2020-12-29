@@ -37,6 +37,8 @@ import com.example.hampo.modelo.Hampo;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -52,6 +54,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EditHampoActivity extends AppCompatActivity {
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
 
     private String idJaula;
     private HamposFirestore hampoDb;
@@ -66,12 +70,13 @@ public class EditHampoActivity extends AppCompatActivity {
     private Spinner spinnerRaza;
     private Button buttonEditHampo;
     private String id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_hampo);
-        id = ((Aplicacion)getApplication()).id;
-        hampoDb= new HamposFirestore(id);
+        id = ((Aplicacion) getApplication()).id;
+        hampoDb = new HamposFirestore(id);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         buttonEditHampo = findViewById(R.id.acceptBtn);
         buttonEditHampo.setText(R.string.edit_btn_hampo);
@@ -82,16 +87,16 @@ public class EditHampoActivity extends AppCompatActivity {
         spinnerRaza = findViewById(R.id.spinnerRaza);
         idJaula = getIntent().getStringExtra("idJaula");
         Log.d("idJaula", "idJaula: " + idJaula);
-        hampoDb.elemento(idJaula, new EscuchadorHampo(){
+        hampoDb.elemento(idJaula, new EscuchadorHampo() {
             @Override
             // Callback encargado de cargar los datos recibidos de la bdd en el layout
             public void onRespuesta(Hampo hampo) {
-                Log.d("idJaula", "hampo uri: " + hampo.getUriFoto());
+                Log.d("idJaula", "hampo uri: " + hampo.getFoto());
                 // Cargo la imagen con la dependencia Glide
                 Glide.with(EditHampoActivity.this)
-                        .load(hampo.getUriFoto())
+                        .load(hampo.getFoto())
                         .into(imagenHampo);
-                uriUltimaFoto = Uri.parse(hampo.getUriFoto());
+                uriUltimaFoto = Uri.parse(hampo.getFoto());
                 // Cargo el nombre del hampo
                 nombreEditText.setText(hampo.getNombre());
 
@@ -100,9 +105,9 @@ public class EditHampoActivity extends AppCompatActivity {
                 spinnerSelectedItem = Integer.parseInt(hampo.getRaza());
 
                 // Cargo el sexo
-                if (hampo.getSex().equals("male")){
+                if (hampo.getSexo().equals("male")) {
                     maleOptionSelected();
-                } else if (hampo.getSex().equals("female")){
+                } else if (hampo.getSexo().equals("female")) {
                     femaleOptionSelected();
                 } else {
                     // control de errores - validacion
@@ -153,7 +158,7 @@ public class EditHampoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //EditText nombreEditText = findViewById(R.id.editTextNombre);
-                Log.d("uriUltimaFoto",uriUltimaFoto.toString());
+                Log.d("uriUltimaFoto", uriUltimaFoto.toString());
                 subirImagenDeHampo(uriUltimaFoto);
                 //Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), downloadUri.toString(), Aplicacion.getId(), String.valueOf(spinnerSelectedItem));
                 //db.anade(hampoToAdd);
@@ -368,8 +373,8 @@ public class EditHampoActivity extends AppCompatActivity {
                     downloadUri = task.getResult();
                     Log.d("Subirfoto", downloadUri.toString());
                     //Creo el hampo una vez tengo la uri de descargar (asincrona)
-                    Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), downloadUri.toString(), String.valueOf(spinnerSelectedItem), sexOptionSelected);
-                    hampoDb.actualiza(idJaula,hampoToAdd);
+                    Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), downloadUri.toString(), user.getUid(), String.valueOf(spinnerSelectedItem), sexOptionSelected.toString(), "300");
+                    hampoDb.actualiza(idJaula, hampoToAdd);
                     finish();
                 } else {
                     // Handle failures

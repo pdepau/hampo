@@ -34,6 +34,8 @@ import com.example.hampo.modelo.Hampo;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -49,6 +51,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CreateHampoActivity extends AppCompatActivity {
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     private ImageView imagenHampo;
     private Uri uriUltimaFoto;
@@ -385,7 +389,7 @@ public class CreateHampoActivity extends AppCompatActivity {
                     downloadUri = task.getResult();
                     Log.d("Subirfoto", downloadUri.toString());
                     //Creo el hampo una vez tengo la uri de descargar (asincrona)
-                    Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), downloadUri.toString(), String.valueOf(spinnerSelectedItem), sexOptionSelected);
+                    Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), downloadUri.toString(),user.getUid(), String.valueOf(spinnerSelectedItem), sexOptionSelected.toString(),"300");
                     db.anade(hampoToAdd);
                     finish();
                 } else {

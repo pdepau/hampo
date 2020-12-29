@@ -7,7 +7,6 @@ public class Lectura {
     private String  bebida;
     private String  comida;
     private String  actividad;
-    // private double adiestramiento;
     private String  distancia;
     private long tiempo;
 

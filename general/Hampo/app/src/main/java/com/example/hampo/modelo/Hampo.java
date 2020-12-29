@@ -2,17 +2,21 @@ package com.example.hampo.modelo;
 
 public class Hampo {
     private String nombre;
-    private String uriFoto;
+    private String foto;
+    private String idUser;
     private String raza;
-    private String sex;
+    private String sexo;
+    private String peso;
 
     public Hampo(){}
 
-    public Hampo(String nombre, String uriFoto, String raza, String sex) {
+    public Hampo(String nombre, String foto, String idUser, String raza, String sexo, String peso) {
         this.nombre = nombre;
-        this.uriFoto = uriFoto;
+        this.foto = foto;
+        this.idUser = idUser;
         this.raza = raza;
-        this.sex = sex;
+        this.sexo = sexo;
+        this.peso = peso;
     }
 
     public String getNombre() {
@@ -23,12 +27,12 @@ public class Hampo {
         this.nombre = nombre;
     }
 
-    public String getUriFoto() {
-        return uriFoto;
+    public String getFoto() {
+        return foto;
     }
 
-    public void setUriFoto(String uriFoto) {
-        this.uriFoto = uriFoto;
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public String getRaza() {
@@ -39,11 +43,11 @@ public class Hampo {
         this.raza = raza;
     }
 
-    public String getSex() {
-        return sex;
+    public String getSexo() {
+        return sexo;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 }

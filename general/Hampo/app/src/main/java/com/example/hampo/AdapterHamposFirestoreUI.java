@@ -66,7 +66,7 @@ public class AdapterHamposFirestoreUI extends
 
     @Override
     protected void onBindViewHolder(@NonNull AdapterHampos.ViewHolderHampos holder, int position, @NonNull Hampo hampo) {
-        personalizaVista(holder, hampo);
+        personalizaVista(holder, hampo, position);
         holder.itemView.setTag(new Integer(position));//para obtener posición
     }
 
@@ -89,27 +89,28 @@ public class AdapterHamposFirestoreUI extends
 
     // Personalizamos un ViewHolder a partir de un lugar
     public void personalizaVista(AdapterHampos.ViewHolderHampos holder,
-                                 Hampo hampo) {
+                                 Hampo hampo, int posicion) {
 
 
         holder.nombre.setText(hampo.getNombre());
         Glide.with(context)
-                .load(hampo.getUriFoto())
+                .load(hampo.getFoto())
                 .into(holder.foto);
         holder.foto.setScaleType(ImageView.ScaleType.FIT_START);
-        personalizaNotificacion(holder, hampo);
+        personalizaNotificacion(holder, hampo, posicion);
 
     }
 
     public void personalizaNotificacion(final AdapterHampos.ViewHolderHampos holder,
-                                        Hampo hampo) {
+                                        Hampo hampo, int posicion) {
         pref = PreferenceManager.getDefaultSharedPreferences(holder.foto.getContext());
         holder.notificacion.setBackgroundResource(R.drawable.not_green);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         id = auth.getUid();
-        Query lecturas = db.collection(id).document(getKey(0)).collection("Lecturas").orderBy("Fecha").limit(1);
+        Log.d("Pruebas", posicion+"");
+        Query lecturas = db.collection(id).document(getKey(posicion)).collection("Lecturas").orderBy("Fecha").limit(1);
         lecturas.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -123,7 +124,7 @@ public class AdapterHamposFirestoreUI extends
                                     Log.w("TAG", "Listen failed.", e);
                                     return;
                                 }
-
+                                Log.d("Pruebas", snapshot.getData().get("Temperatura").toString());
                                 if (snapshot != null && snapshot.exists()) {
                                     if (Integer.parseInt(snapshot.getData().get("Temperatura").toString()) < 10 ||
                                             Integer.parseInt(snapshot.getData().get("Temperatura").toString()) > 30 ||

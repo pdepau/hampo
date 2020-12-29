@@ -28,7 +28,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
-public class MiPerfilFragment extends Fragment {
+public class nav_perfil extends Fragment {
 
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private String nombreUsuario;
@@ -43,7 +43,7 @@ public class MiPerfilFragment extends Fragment {
     private Button guardarCambios;
 
 
-    public MiPerfilFragment() {
+    public nav_perfil() {
         // Required empty public constructor
     }
 
