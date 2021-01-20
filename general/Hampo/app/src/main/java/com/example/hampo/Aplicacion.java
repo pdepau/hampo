@@ -1,6 +1,7 @@
 package com.example.hampo;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 
 import com.example.hampo.datos.HamposAsinc;
@@ -16,7 +17,7 @@ import com.google.firebase.firestore.Query;
 public class Aplicacion extends Application {
     public HamposAsinc hampos;
     public AdapterHamposFirestoreUI adaptador;
-
+    private static Context context;
     public FirebaseAuth auth;
     public String id;
 
@@ -46,6 +47,13 @@ public class Aplicacion extends Application {
             startActivity(i);
         }
 
+    }
+    public static void setContext(Context cntxt) {
+        context = cntxt;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 
 }

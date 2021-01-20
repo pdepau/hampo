@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="#6994d8"
+            android:background="#57bd9e"
             android:onClick="cerrarSesion"
             android:text="@string/btn_cerrar_sesion"
             android:textColor="#FFFFFF" />

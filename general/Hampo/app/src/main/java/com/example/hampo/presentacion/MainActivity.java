@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         id = ((Aplicacion)getApplication()).id;
-
+        Aplicacion.setContext(getApplicationContext());
         //preferencias
 
         if(pref.getBoolean("tema", false))
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_mis_hampos, R.id.nav_mi_perfil, R.id.nav_config, R.id.nav_adiestramiento, R.id.nav_FAQ)
+                R.id.nav_mis_hampos, R.id.nav_mi_perfil, R.id.nav_config, R.id.nav_tiendas, R.id.nav_FAQ)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
