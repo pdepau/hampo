@@ -81,7 +81,6 @@ public class CreateHampoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.VISIBLE);
-                layout.setBackgroundColor(Color.parseColor("#00000000"));
             }
         });
 
@@ -89,7 +88,7 @@ public class CreateHampoActivity extends AppCompatActivity {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(Color.parseColor("#00000000"));
+
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
             }
         });
@@ -97,7 +96,7 @@ public class CreateHampoActivity extends AppCompatActivity {
         findViewById(R.id.cardGaleria).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(Color.parseColor("#00000000"));
+
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 ponerDeGaleria(1);
             }
@@ -107,7 +106,6 @@ public class CreateHampoActivity extends AppCompatActivity {
         findViewById(R.id.cardCamara).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(Color.parseColor("#00000000"));
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 uriUltimaFoto = manejadorFotoHampo();
             }
@@ -117,55 +115,11 @@ public class CreateHampoActivity extends AppCompatActivity {
         findViewById(R.id.acceptBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //EditText nombreEditText = findViewById(R.id.editTextNombre);
+
                 subirImagenDeHampo(uriUltimaFoto);
-                //Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), downloadUri.toString(), Aplicacion.getId(), String.valueOf(spinnerSelectedItem));
-                //db.anade(hampoToAdd);
-                //finish();
             }
         });
 
-        /*
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.arrayRazasHamster, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-        final TextView textViewComida = findViewById(R.id.textViewComida);
-        final TextView textViewBebida = findViewById(R.id.textViewBebida);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // guardo el item seleccinado en la variable global
-                spinnerSelectedItem = position;
-                switch (position) {
-                    case 0:
-                        textViewComida.setText("🍖 400 gr/dia");
-                        textViewBebida.setText("💧 350 ml/dia");
-                        break;
-                    case 1:
-                        textViewComida.setText("🍖 200 gr/dia");
-                        textViewBebida.setText("💧 50 ml/dia");
-                        break;
-                    case 2:
-                        textViewComida.setText("🍖 300 gr/dia");
-                        textViewBebida.setText("💧 150 ml/dia");
-                        break;
-                    case 3:
-                        textViewComida.setText("🍖 450 gr/dia");
-                        textViewBebida.setText("💧 350 ml/dia");
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-
-        });*/
         findViewById(R.id.femaleCard).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 femaleOptionSelected(v);
@@ -176,23 +130,7 @@ public class CreateHampoActivity extends AppCompatActivity {
                 maleOptionSelected(v);
             }
         });
-        /*mAuth = FirebaseAuth.getInstance();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_mis_hampos, R.id.nav_mi_perfil, R.id.nav_config, R.id.nav_tinder, R.id.nav_FAQ)
-                .setDrawerLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-*/
     }
 
     public void visualizarFoto(ImageView imageView, String uri) {
@@ -257,7 +195,6 @@ public class CreateHampoActivity extends AppCompatActivity {
     }
 
     public void femaleOptionSelected(View view) {
-        layout.setBackgroundColor(Color.parseColor("#ffffff"));
         findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
         CardView maleCard = findViewById(R.id.maleCard);
         maleCard.setCardBackgroundColor(12);
@@ -267,7 +204,6 @@ public class CreateHampoActivity extends AppCompatActivity {
     }
 
     public void maleOptionSelected(View view) {
-        layout.setBackgroundColor(Color.parseColor("#ffffff"));
         findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
         CardView femaleCard = findViewById(R.id.femaleCard);
         femaleCard.setCardBackgroundColor(12);
@@ -371,6 +307,12 @@ public class CreateHampoActivity extends AppCompatActivity {
         final StorageReference riversRef = mStorageRef.child("hampoimages/" + id + ".jpg");
         UploadTask uploadTask = riversRef.putFile(file);
 
+        if(file==null){
+            //Creo el hampo una vez tengo la uri de descargar (asincrona)
+            Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), null, user.getUid(), String.valueOf(spinnerSelectedItem), sexOptionSelected.toString(), "300");
+            db.anade(hampoToAdd);
+            finish();
+        }
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {

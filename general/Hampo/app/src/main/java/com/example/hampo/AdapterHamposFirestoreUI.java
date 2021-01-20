@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -105,6 +106,7 @@ public class AdapterHamposFirestoreUI extends
                                         final Hampo hampo, final int posicion) {
         pref = PreferenceManager.getDefaultSharedPreferences(holder.foto.getContext());
         holder.notificacion.setBackgroundResource(R.drawable.not_green);
+        holder.notificacion2.setBackgroundResource(R.drawable.not_green);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -130,6 +132,8 @@ public class AdapterHamposFirestoreUI extends
                                             Integer.parseInt(snapshot.getData().get("Temperatura").toString()) > 30 ||
                                             Integer.parseInt(snapshot.getData().get("Bebedero").toString()) < 30) {
                                         holder.notificacion.setBackgroundResource(R.drawable.not_yellow);
+                                        holder.notificacion2.setBackgroundResource(R.drawable.not_yellow);
+
                                     }
                                     if (Integer.parseInt(snapshot.getData().get("Temperatura").toString()) < 0 ||
                                             Integer.parseInt(snapshot.getData().get("Temperatura").toString()) > 40 ||
@@ -156,11 +160,13 @@ public class AdapterHamposFirestoreUI extends
                                         }
 
                                         holder.notificacion.setBackgroundResource(R.drawable.not_red);
+                                        holder.notificacion2.setBackgroundResource(R.drawable.not_red);
                                     }
                                     if (Integer.parseInt(snapshot.getData().get("Temperatura").toString()) >= 10 &&
                                             Integer.parseInt(snapshot.getData().get("Temperatura").toString()) <= 30 &&
                                             Integer.parseInt(snapshot.getData().get("Bebedero").toString()) >= 30) {
                                         holder.notificacion.setBackgroundResource(R.drawable.not_green);
+                                        holder.notificacion2.setBackgroundResource(R.drawable.not_green);
                                     }
                                     //Log.d("TAG", "Current data: " + snapshot.getData());
                                 } else {

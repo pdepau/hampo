@@ -51,12 +51,14 @@ public class AdapterHampos extends RecyclerView.Adapter<AdapterHampos.ViewHolder
         TextView nombre;
         ImageView foto;
         CardView notificacion;
+        CardView notificacion2;
 
         public ViewHolderHampos(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.hampoNombre);
             foto = itemView.findViewById(R.id.hampoFoto);
-            notificacion = itemView.findViewById(R.id.CardViewNotificacion);
+            notificacion = (CardView)itemView.findViewById(R.id.CardViewNotificacion);
+            notificacion2 = (CardView)itemView.findViewById(R.id.notificacion2);
         }
 
     }
