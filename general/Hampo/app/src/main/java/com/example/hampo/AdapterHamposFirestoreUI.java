@@ -102,7 +102,7 @@ public class AdapterHamposFirestoreUI extends
     }
 
     public void personalizaNotificacion(final AdapterHampos.ViewHolderHampos holder,
-                                        Hampo hampo, int posicion) {
+                                        final Hampo hampo, final int posicion) {
         pref = PreferenceManager.getDefaultSharedPreferences(holder.foto.getContext());
         holder.notificacion.setBackgroundResource(R.drawable.not_green);
 
@@ -150,7 +150,7 @@ public class AdapterHamposFirestoreUI extends
                                                     new NotificationCompat.Builder(holder.nombre.getContext(), CANAL_ID)
                                                             .setSmallIcon(R.mipmap.ic_launcher)
                                                             .setContentTitle("Alerta")
-                                                            .setContentText("Revisa a tu mascota.");
+                                                            .setContentText("Revisa a "+ hampo.getNombre());
                                             PendingIntent intencionPendiente = PendingIntent.getActivity(
                                                     context, 0, new Intent(context, MainActivity.class), 0);
                                             notificacion.setContentIntent(intencionPendiente);

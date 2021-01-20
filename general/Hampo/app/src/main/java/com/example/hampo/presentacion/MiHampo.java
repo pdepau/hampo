@@ -52,30 +52,23 @@ public class MiHampo extends AppCompatActivity {
 
     private TextView aux;
 
-    private TextView progresoComida;
     private TextView viewDistancia;
     private TextView progresoActividad;
     private TextView progresoBebida;
     private TextView tipoIluminacion;
-    private TextView luzUV;
     private TextView sexoView;
-    private ConstraintLayout totalComida;
     private ConstraintLayout totalActividad;
     private ConstraintLayout totalBebida;
 
     private CardView botonEditar;
     private CardView botonBorrar;
     private CardView botonLuz;
-    private CardView botonLuzUV;
-    private CardView botonAdiestrar;
     private CardView botonAlimentar;
 
     private ImageView fotoBombilla;
-    private ImageView fotoBombillaUV;
     private ImageView imagenHampo;
 
-    private int iluminacion = 0;
-    private int iluminacionUV = 0;
+    private int iluminacion = 1;
 
 
     private StorageReference mStorageRef;
@@ -102,26 +95,20 @@ public class MiHampo extends AppCompatActivity {
         mqttController = new CasosUsoMQTT();
         mqttController.crearConexionMQTT("1234548612");
 
-        progresoComida = findViewById(R.id.progresoComida);
         progresoActividad = findViewById(R.id.progresoActividad);
         progresoBebida = findViewById(R.id.progresoBebida);
-        totalComida = findViewById(R.id.fondoComida);
         totalActividad = findViewById(R.id.fondoActividad);
         totalBebida = findViewById(R.id.fondoBebida);
         viewDistancia = findViewById(R.id.viewDistancia);
         tipoIluminacion = findViewById(R.id.tipoIluminacion);
-        luzUV = findViewById(R.id.luzUV);
         sexoView = findViewById(R.id.sexoView);
 
         botonEditar = findViewById(R.id.botonEditar);
         botonBorrar = findViewById(R.id.botonBorrar);
         botonLuz = findViewById(R.id.botonLuz);
-        botonLuzUV = findViewById(R.id.botonLuzUV);
-        botonAdiestrar = findViewById(R.id.botonAdiestrar);
         botonAlimentar = findViewById(R.id.botonAlimentar);
 
         fotoBombilla = findViewById(R.id.fotoBombilla);
-        fotoBombillaUV = findViewById(R.id.fotoBombillaUV);
 
         botonEditar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,30 +121,6 @@ public class MiHampo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 lanzarBorrar(v);
-            }
-        });
-
-        botonLuzUV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (iluminacionUV == 1) {
-                    mqttController.enviarMensajeMQTT("luzhampo/uv/on", "luzhampo/uv/on");
-                    iluminacionUV--;
-                    fotoBombillaUV.setImageResource(R.drawable.ic_light_bulb_uv);
-                    luzUV.setText("Encendida");
-                } else {
-                    mqttController.enviarMensajeMQTT("luzhampo/uv/off", "luzhampo/uv/off");
-                    iluminacionUV++;
-                    fotoBombillaUV.setImageResource(R.drawable.ic_light_bulb);
-                    luzUV.setText("Apagada");
-                }
-            }
-        });
-
-        botonAdiestrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //codigo para el adiestramiento
             }
         });
 
@@ -181,18 +144,6 @@ public class MiHampo extends AppCompatActivity {
                         mqttController.enviarMensajeMQTT("luzhampo/both/off", "luzhampo/both/off");
                         break;
                     case 1:
-                        iluminacion++;
-                        fotoBombilla.setImageResource(R.drawable.ic_light_bulb_on);
-                        tipoIluminacion.setText("Arriba");
-                        mqttController.enviarMensajeMQTT("luzhampo/top/on", "luzhampo/top/on");
-                        break;
-                    case 2:
-                        iluminacion++;
-                        fotoBombilla.setImageResource(R.drawable.ic_light_bulb_on);
-                        tipoIluminacion.setText("Abajo");
-                        mqttController.enviarMensajeMQTT("luzhampo/down/on", "luzhampo/down/on");
-                        break;
-                    case 3:
                         iluminacion = 0;
                         fotoBombilla.setImageResource(R.drawable.ic_light_bulb_on);
                         tipoIluminacion.setText("Ambas");
@@ -214,11 +165,11 @@ public class MiHampo extends AppCompatActivity {
             @Override
             // Callback encargado de cargar los datos recibidos de la bdd en el layout
             public void onRespuesta(Hampo hampo) {
-                Log.d("Coso", "hampo uri: " + hampo.getUriFoto());
+                Log.d("Coso", "hampo uri: " + hampo.getFoto());
                 h = hampo;
 
                 Glide.with(MiHampo.this)
-                        .load(hampo.getUriFoto())
+                        .load(hampo.getFoto())
                         .into(imagenHampo);
 
                 // Cargo el nombre del hampo
@@ -228,9 +179,9 @@ public class MiHampo extends AppCompatActivity {
                 getRazas(hampo.getRaza());
 
                 // Cargo el sexo
-                if (hampo.getSex().equals("male")) {
+                if (hampo.getSexo().equals("male")) {
                     sexoView.setText("♂️");
-                } else if (hampo.getSex().equals("female")) {
+                } else if (hampo.getSexo().equals("female")) {
                     sexoView.setText("♀️");
                 } else {
                     sexoView.setText("Otro");
@@ -259,9 +210,6 @@ public class MiHampo extends AppCompatActivity {
                         aux = findViewById(R.id.porcentajeHumedad);
                         aux.setText(task.getResult().getDocuments().get(0).getData().get("Humedad").toString() + "%");
 
-                        aux = findViewById(R.id.porcentajeComida);
-                        aux.setText(task.getResult().getDocuments().get(0).getData().get("Comedero").toString() + "%");
-
                         aux = findViewById(R.id.porcentajeBebida);
                         aux.setText(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString() + "%");
 
@@ -286,15 +234,9 @@ public class MiHampo extends AppCompatActivity {
 
         int totalB = totalBebida.getWidth();
         int totalA = totalActividad.getWidth();
-        int totalC = totalComida.getWidth();
         int porcentajeB = totalB * Integer.parseInt(b) / 100;
-        int porcentajeC = totalC * Integer.parseInt(c) / 100;
         int porcentajeA = totalA * Integer.parseInt(a) / 100;
 
-
-        ConstraintLayout.LayoutParams lpC = (ConstraintLayout.LayoutParams) progresoComida.getLayoutParams();
-        lpC.width = porcentajeC;
-        progresoComida.setLayoutParams(lpC);
 
         ConstraintLayout.LayoutParams lpA = (ConstraintLayout.LayoutParams) progresoActividad.getLayoutParams();
         lpA.width = porcentajeA;
