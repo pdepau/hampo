@@ -5,12 +5,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.things.pio.PeripheralManager;
 import com.google.android.things.pio.UartDevice;
 import com.google.android.things.pio.UartDeviceCallback;
-import com.google.gson.Gson;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -31,9 +35,9 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
     private UartDevice uart;
     private TextView texto;
     public static MqttClient client = null;
-    String aux="";
+    String aux = "";
     Lectura lectura;
-    Gson gson = new Gson();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +65,16 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
                 //Log.d(TAG, "Read " + mensaje);
                 //texto.setText(mensaje);
                 // Continue listening for more interrupts
-                if(mensaje.contains("#")){
-                    aux+=mensaje;
+                if (mensaje.contains("#")) {
+                    aux += mensaje;
                     String aux2 = aux.split("#")[0];
                     texto.setText(aux2);
-                    lectura = new Lectura(aux2.split("\"")[3],aux2.split("\"")[7],aux2.split("\"")[11],aux2.split("\"")[15],System.currentTimeMillis());
+                    lectura = new Lectura(aux2.split("\"")[3], aux2.split("\"")[7], aux2.split("\"")[11], aux2.split("\"")[15], System.currentTimeMillis());
 
                     Log.w(TAG, "Lectura : " + lectura.toString());
-                    aux="";
-                }else{
-                    aux+=mensaje;
+                    aux = "";
+                } else {
+                    aux += mensaje;
                 }
 
                 return true;
@@ -129,6 +133,26 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
         Log.i(TAG, leer());
     }
 
+    public void boton3(View view) {
+        // Create a new user with a first and last name
+        Lectura lectura = new Lectura("17", "34", "32", "98", System.currentTimeMillis());
+        // Add a new document with a generated ID
+        db.collection("uVr9mrxy39VjxWiSDLGKWK58FZD3").document("cn6MIXXWdD15NqSMan1c").collection("Lecturas")
+                .add(lectura)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+    }
+
     public void crearConexionMQTT() {
         try {
             Log.i(TAG, "Conectando al broker " + MQTT.broker);
@@ -155,8 +179,6 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
     }
 
 
-
-
     @Override
     public void connectionLost(Throwable cause) {
 
@@ -171,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
             if (topic.equalsIgnoreCase("hampo/luz/on")) {
                 Log.d(TAG, "dentro luz");
                 escribir("H");
-            } else  if (topic.equalsIgnoreCase("hampo/luz/off")){
+            } else if (topic.equalsIgnoreCase("hampo/luz/off")) {
                 Log.d(TAG, "fuera luz");
                 escribir("L");
             }

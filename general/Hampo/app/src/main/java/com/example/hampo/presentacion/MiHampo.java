@@ -62,12 +62,9 @@ public class MiHampo extends AppCompatActivity {
 
     private TextView aux;
 
-    private TextView viewDistancia;
-    private TextView progresoActividad;
     private TextView progresoBebida;
     private TextView tipoIluminacion;
     private TextView sexoView;
-    private ConstraintLayout totalActividad;
     private ConstraintLayout totalBebida;
 
     private CardView botonEditar;
@@ -107,11 +104,8 @@ public class MiHampo extends AppCompatActivity {
         mqttController = new CasosUsoMQTT();
         mqttController.crearConexionMQTT("1234548612");
 
-        progresoActividad = findViewById(R.id.progresoActividad);
         progresoBebida = findViewById(R.id.progresoBebida);
-        totalActividad = findViewById(R.id.fondoActividad);
         totalBebida = findViewById(R.id.fondoBebida);
-        viewDistancia = findViewById(R.id.viewDistancia);
         tipoIluminacion = findViewById(R.id.tipoIluminacion);
         sexoView = findViewById(R.id.sexoView);
 
@@ -209,7 +203,7 @@ public class MiHampo extends AppCompatActivity {
 
     private void actualizarDatosLectura() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Query lecturas = db.collection(id).document(idJaula).collection("Lecturas").orderBy("Fecha").limit(1);
+        Query lecturas = db.collection(id).document(idJaula).collection("Lecturas").orderBy("fecha", Query.Direction.DESCENDING).limit(1);
 
         lecturas.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -218,24 +212,19 @@ public class MiHampo extends AppCompatActivity {
                     if (task.getResult().size() == 1) {
 
                         aux = findViewById(R.id.porcentajeIluminacion);
-                        aux.setText(task.getResult().getDocuments().get(0).getData().get("Iluminacion").toString() + "%");
+                        aux.setText(task.getResult().getDocuments().get(0).getData().get("iluminacion").toString() + "%");
 
                         aux = findViewById(R.id.temperatura);
-                        aux.setText(task.getResult().getDocuments().get(0).getData().get("Temperatura").toString() + "ºC");
+                        aux.setText(task.getResult().getDocuments().get(0).getData().get("temperatura").toString() + "ºC");
 
                         aux = findViewById(R.id.porcentajeHumedad);
-                        aux.setText(task.getResult().getDocuments().get(0).getData().get("Humedad").toString() + "%");
+                        aux.setText(task.getResult().getDocuments().get(0).getData().get("humedad").toString() + "%");
 
                         aux = findViewById(R.id.porcentajeBebida);
-                        aux.setText(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString() + "%");
+                        aux.setText(task.getResult().getDocuments().get(0).getData().get("bebedero").toString() + "%");
 
-                        aux = findViewById(R.id.porcentajeActividad);
-                        aux.setText(task.getResult().getDocuments().get(0).getData().get("Actividad").toString() + "%");
 
-                        aux = findViewById(R.id.viewDistancia);
-                        aux.setText(task.getResult().getDocuments().get(0).getData().get("Distancia").toString() + "cm");
-
-                        actualizarBarras(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString(), task.getResult().getDocuments().get(0).getData().get("Actividad").toString());
+                        actualizarBarras(task.getResult().getDocuments().get(0).getData().get("bebedero").toString());
                     }
                 } else {
                     Log.e("Firebase", "Error al leer", task.getException());
@@ -246,17 +235,10 @@ public class MiHampo extends AppCompatActivity {
 
     }
 
-    private void actualizarBarras(String b, String a) {
+    private void actualizarBarras(String b) {
 
         int totalB = totalBebida.getWidth();
-        int totalA = totalActividad.getWidth();
         int porcentajeB = totalB * Integer.parseInt(b) / 100;
-        int porcentajeA = totalA * Integer.parseInt(a) / 100;
-
-
-        ConstraintLayout.LayoutParams lpA = (ConstraintLayout.LayoutParams) progresoActividad.getLayoutParams();
-        lpA.width = porcentajeA;
-        progresoActividad.setLayoutParams(lpA);
 
         ConstraintLayout.LayoutParams lpB = (ConstraintLayout.LayoutParams) progresoBebida.getLayoutParams();
         lpB.width = porcentajeB;
@@ -305,7 +287,7 @@ public class MiHampo extends AppCompatActivity {
 
         builder.setTitle("Borrado de hampo");
 
-        builder.setMessage("¿Estás seguro que quieres eliminar el hamop?");
+        builder.setMessage("¿Estás seguro que quieres eliminar este hampo?");
 
         builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
