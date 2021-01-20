@@ -1,4 +1,4 @@
-package com.example.hampo.modelo;
+package org.example.androidthingsraspberry;
 
 public class Lectura {
     private String temperatura;

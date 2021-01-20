@@ -32,8 +32,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.example.comun.MQTT;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static org.example.comun.MQTT.topicRoot;
 
 
 public class MiHampo extends AppCompatActivity {
@@ -63,7 +72,6 @@ public class MiHampo extends AppCompatActivity {
     private CardView botonEditar;
     private CardView botonBorrar;
     private CardView botonLuz;
-    private CardView botonAlimentar;
 
     private ImageView fotoBombilla;
     private ImageView imagenHampo;
@@ -76,6 +84,9 @@ public class MiHampo extends AppCompatActivity {
     private Hampo h = new Hampo();
     private CasosUsoHampo cuh;
     private CasosUsoMQTT mqttController;
+
+    public static MqttClient client = null;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +117,6 @@ public class MiHampo extends AppCompatActivity {
         botonEditar = findViewById(R.id.botonEditar);
         botonBorrar = findViewById(R.id.botonBorrar);
         botonLuz = findViewById(R.id.botonLuz);
-        botonAlimentar = findViewById(R.id.botonAlimentar);
 
         fotoBombilla = findViewById(R.id.fotoBombilla);
 
@@ -124,13 +134,6 @@ public class MiHampo extends AppCompatActivity {
             }
         });
 
-        botonAlimentar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //codigo para alimentar
-                mqttController.enviarMensajeMQTT("luzhampo/alimentar", "luzhampo/alimentar");
-            }
-        });
 
         botonLuz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,22 +144,35 @@ public class MiHampo extends AppCompatActivity {
                         iluminacion++;
                         fotoBombilla.setImageResource(R.drawable.ic_light_bulb);
                         tipoIluminacion.setText("Apagadas");
-                        mqttController.enviarMensajeMQTT("luzhampo/both/off", "luzhampo/both/off");
+                        enviarMensajeMQTT("Off", "luz/off");
                         break;
                     case 1:
                         iluminacion = 0;
                         fotoBombilla.setImageResource(R.drawable.ic_light_bulb_on);
                         tipoIluminacion.setText("Ambas");
-                        mqttController.enviarMensajeMQTT("luzhampo/both/on", "luzhampo/both/on");
+                        enviarMensajeMQTT("On", "luz/on");
                         break;
                 }
             }
         });
 
-
+        crearConexionMQTT();
         Toast.makeText(MiHampo.this, idJaula, Toast.LENGTH_SHORT).show();
         actualizarDatosHampo();
         actualizarDatosLectura();
+    }
+
+    public void enviarMensajeMQTT(String data, String subTopic) {
+        try {
+            Log.i(MQTT.TAG, "Publicando mensaje: " + data);
+            MqttMessage message = new MqttMessage(data.getBytes());
+            message.setQos(MQTT.qos);
+            message.setRetained(false);
+            client.publish(topicRoot + subTopic, message);
+        } catch (
+                MqttException e) {
+            Log.e(MQTT.TAG, "Error al publicar.", e);
+        }
     }
 
     private void actualizarDatosHampo() {
@@ -219,7 +235,7 @@ public class MiHampo extends AppCompatActivity {
                         aux = findViewById(R.id.viewDistancia);
                         aux.setText(task.getResult().getDocuments().get(0).getData().get("Distancia").toString() + "cm");
 
-                        actualizarBarras(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString(), task.getResult().getDocuments().get(0).getData().get("Comedero").toString(), task.getResult().getDocuments().get(0).getData().get("Actividad").toString());
+                        actualizarBarras(task.getResult().getDocuments().get(0).getData().get("Bebedero").toString(), task.getResult().getDocuments().get(0).getData().get("Actividad").toString());
                     }
                 } else {
                     Log.e("Firebase", "Error al leer", task.getException());
@@ -230,7 +246,7 @@ public class MiHampo extends AppCompatActivity {
 
     }
 
-    private void actualizarBarras(String b, String c, String a) {
+    private void actualizarBarras(String b, String a) {
 
         int totalB = totalBebida.getWidth();
         int totalA = totalActividad.getWidth();
@@ -294,4 +310,20 @@ public class MiHampo extends AppCompatActivity {
         actualizarDatosLectura();
 
     }
+
+    public void crearConexionMQTT() {
+        try {
+            Log.i(TAG, "Conectando al broker " + MQTT.broker);
+            client = new MqttClient(MQTT.broker, MQTT.clientId,
+                    new MemoryPersistence());
+            MqttConnectOptions connOpts = new MqttConnectOptions();
+            connOpts.setCleanSession(true);
+            connOpts.setKeepAliveInterval(60);
+            connOpts.setWill(topicRoot + "WillTopic", "App desconectada".getBytes(), MQTT.qos, false);
+            client.connect(connOpts);
+        } catch (MqttException e) {
+            Log.e(TAG, "Error al conectar.", e);
+        }
+    }
+
 }

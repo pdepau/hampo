@@ -128,13 +128,11 @@ public class AdapterHamposFirestoreUI extends
                                 if (snapshot != null && snapshot.exists()) {
                                     if (Integer.parseInt(snapshot.getData().get("Temperatura").toString()) < 10 ||
                                             Integer.parseInt(snapshot.getData().get("Temperatura").toString()) > 30 ||
-                                            Integer.parseInt(snapshot.getData().get("Comedero").toString()) < 30 ||
                                             Integer.parseInt(snapshot.getData().get("Bebedero").toString()) < 30) {
                                         holder.notificacion.setBackgroundResource(R.drawable.not_yellow);
                                     }
                                     if (Integer.parseInt(snapshot.getData().get("Temperatura").toString()) < 0 ||
                                             Integer.parseInt(snapshot.getData().get("Temperatura").toString()) > 40 ||
-                                            Integer.parseInt(snapshot.getData().get("Comedero").toString()) < 10 ||
                                             Integer.parseInt(snapshot.getData().get("Bebedero").toString()) < 10) {
                                         if (pref.getBoolean("notificaciones", true)) {
                                             notificationManager = (NotificationManager)
@@ -161,7 +159,6 @@ public class AdapterHamposFirestoreUI extends
                                     }
                                     if (Integer.parseInt(snapshot.getData().get("Temperatura").toString()) >= 10 &&
                                             Integer.parseInt(snapshot.getData().get("Temperatura").toString()) <= 30 &&
-                                            Integer.parseInt(snapshot.getData().get("Comedero").toString()) >= 30 &&
                                             Integer.parseInt(snapshot.getData().get("Bebedero").toString()) >= 30) {
                                         holder.notificacion.setBackgroundResource(R.drawable.not_green);
                                     }
