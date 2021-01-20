@@ -1,5 +1,6 @@
 package com.example.hampo.presentacion;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -130,7 +132,7 @@ public class MiHampo extends AppCompatActivity {
         botonBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lanzarBorrar(v);
+                confirmacionBorrado();
             }
         });
 
@@ -297,10 +299,23 @@ public class MiHampo extends AppCompatActivity {
 
     }
 
-    private void lanzarBorrar(View view) {
-        //Intent i = new Intent(view.getContext(),CreateHampoActivity.class);
-        //startActivity(i);
+    private void lanzarBorrar() {
         cuh.borrar(idJaula);
+    }
+    public void confirmacionBorrado(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Borrado de hampo");
+
+        builder.setMessage("¿Estás seguro que quieres eliminar el hamop?");
+
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                lanzarBorrar();
+            }
+        });
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
     }
 
     @Override
