@@ -190,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
             if(parcelables != null && parcelables.length > 0)
             {
                 readTextFromMessage((NdefMessage) parcelables[0]);
-                Toast.makeText(MainActivity.this, mensaje, Toast.LENGTH_SHORT).show();
                 DocumentReference existe = db.collection(id).document(mensaje);
                 existe.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override

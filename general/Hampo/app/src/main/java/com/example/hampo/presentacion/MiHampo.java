@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -159,7 +158,6 @@ public class MiHampo extends AppCompatActivity {
         });
 
         crearConexionMQTT();
-        Toast.makeText(MiHampo.this, idJaula, Toast.LENGTH_SHORT).show();
         actualizarDatosHampo();
         actualizarDatosLectura();
     }
