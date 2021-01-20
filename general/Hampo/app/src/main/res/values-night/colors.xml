@@ -17,4 +17,5 @@
     <color name="colorProgresoBebidaE">#468099</color>
     <color name="colorProgresoActividadS">#83993C</color>
     <color name="colorProgresoActividadE">#83993C</color>
+    <color name="colorLetra">#F6F6F6</color>
 </resources>

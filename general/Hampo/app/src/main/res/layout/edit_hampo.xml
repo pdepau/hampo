@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/myConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:elevation="0dp">
 
     <FrameLayout
         android:id="@+id/frameLayout1"
@@ -35,14 +36,15 @@
             android:layout_height="60dp"
             android:translationX="135dp"
             android:translationY="135dp"
-            app:cardCornerRadius="150dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="30dp"
             tools:ignore="ContentDescription">
 
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/camara" />
+                app:srcCompat="@drawable/camera" />
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
@@ -114,6 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:textColor="@color/colorLetra"
         android:layout_marginEnd="20dp"
         android:dropDownWidth="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -231,8 +234,8 @@
         android:id="@+id/cardSelectPicOptions"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:backgroundTint="@color/design_default_color_background"
-        app:cardBackgroundColor="#DFD7D7"
+        android:backgroundTint="@color/colorDetalleMiHampo"
+        app:cardBackgroundColor="@color/colorDetalleMiHampo"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -249,6 +252,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/textViewSelectPic"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/colorLetra"
             android:textSize="20dp"
             android:translationX="15dp" />
 
@@ -258,7 +262,9 @@
             android:layout_height="75dp"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="50dp"
-            app:cardCornerRadius="10dp">
+            app:cardBackgroundColor="#00FFFFFF"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp">
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -267,6 +273,7 @@
                 app:srcCompat="@drawable/galeria" />
         </androidx.cardview.widget.CardView>
 
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardCamara"
             android:layout_width="75dp"
@@ -274,13 +281,15 @@
             android:layout_marginLeft="25dp"
             android:layout_marginTop="50dp"
             android:translationX="100dp"
-            app:cardCornerRadius="50dp">
+            app:cardBackgroundColor="#00FFFFFF"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp">
 
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/camara" />
+                app:srcCompat="@drawable/camera" />
         </androidx.cardview.widget.CardView>
 
     </androidx.cardview.widget.CardView>

@@ -50,6 +50,10 @@
             android:name=".presentacion.PreferenciasActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.DayNight"/>
+        <activity
+            android:name=".presentacion.PrivacidadActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.DayNight"/>
 
         <activity
             android:name=".presentacion.CustomLoginActivity"
