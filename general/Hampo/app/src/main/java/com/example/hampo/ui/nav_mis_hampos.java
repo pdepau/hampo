@@ -15,6 +15,7 @@ import com.example.hampo.Aplicacion;
 import com.example.hampo.R;
 import com.example.hampo.modelo.Hampo;
 import com.example.hampo.presentacion.CreateHampoActivity;
+import com.example.hampo.presentacion.LoginActivity;
 import com.example.hampo.presentacion.MiHampo;
 import com.example.hampo.presentacion.SpacesItemDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,7 +29,6 @@ public class nav_mis_hampos extends Fragment {
 
     private RecyclerView recyclerView;
     ArrayList<Hampo> listHampos;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static AdapterHamposFirestoreUI adaptador;
     private String id;
 
@@ -39,7 +39,6 @@ public class nav_mis_hampos extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
     }
 
@@ -53,11 +52,7 @@ public class nav_mis_hampos extends Fragment {
         recyclerView = (RecyclerView) vista.findViewById(R.id.recyclerView);
         recyclerView.addItemDecoration(new SpacesItemDecoration(16));
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        llenarLista();
-
         recyclerView.setAdapter(adaptador);
-
-        adaptador.startListening();
 
             //asignas escuchador para cada sitio y visualizar el sitio que aprietes
         adaptador.setOnItemClickListener(new View.OnClickListener() {
@@ -70,13 +65,15 @@ public class nav_mis_hampos extends Fragment {
             }
         });
 
-            FloatingActionButton fab = vista.findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    lanzarCrearHampo();
-                }
-            });
+
+
+        FloatingActionButton fab = vista.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lanzarCrearHampo();
+            }
+        });
 
         return vista;
     }
@@ -97,14 +94,6 @@ public class nav_mis_hampos extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         adaptador.stopListening();
-    }
-
-
-    private void llenarLista() {
-
-        CollectionReference hampos = db.collection("hampos");
-
-        // seleccionar hampos que tienen la uid del usuario
     }
 
 }
