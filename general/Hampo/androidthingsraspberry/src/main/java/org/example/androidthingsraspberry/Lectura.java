@@ -12,16 +12,9 @@ public class Lectura {
         this.humedad = humedad;
         this.bebedero = bebedero;
         this.iluminacion = iluminacion;
-        this.fecha=fecha;
+        this.fecha = fecha;
     }
 
-    public String getTemperatuar() {
-        return temperatura;
-    }
-
-    public void setTemperatuar(String temperatura) {
-        this.temperatura = temperatura;
-    }
 
     public String getHumedad() {
         return humedad;
@@ -39,12 +32,28 @@ public class Lectura {
         this.bebedero = bebedero;
     }
 
-    public String getLuminosidad() {
+    public String getTemperatura() {
+        return temperatura;
+    }
+
+    public void setTemperatura(String temperatura) {
+        this.temperatura = temperatura;
+    }
+
+    public String getIluminacion() {
         return iluminacion;
     }
 
-    public void setLuminosidad(String iluminacion) {
+    public void setIluminacion(String iluminacion) {
         this.iluminacion = iluminacion;
+    }
+
+    public Long getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Long fecha) {
+        this.fecha = fecha;
     }
 
     @Override
@@ -54,6 +63,7 @@ public class Lectura {
                 ", humedad='" + humedad + '\'' +
                 ", bebedero='" + bebedero + '\'' +
                 ", iluminacion='" + iluminacion + '\'' +
+                ", fecha=" + fecha +
                 '}';
     }
 }

@@ -21,10 +21,10 @@
         android:label="Configuración"
         tools:layout="@layout/fragment_nav_config" />
     <fragment
-        android:id="@+id/nav_adiestramiento"
-        android:name="com.example.hampo.ui.nav_tinder"
-        android:label="Mapa de hampos"
-        tools:layout="@layout/fragment_nav_tinder" />
+        android:id="@+id/nav_tiendas"
+        android:name="com.example.hampo.ui.nav_tiendas"
+        android:label="Tiendas de Hampos"
+        tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/nav_FAQ"
         android:name="com.example.hampo.ui.nav_FAQ"

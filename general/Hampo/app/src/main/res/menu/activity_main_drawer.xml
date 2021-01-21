@@ -20,8 +20,8 @@
             android:title="@string/menu_config" />
 
         <item
-            android:id="@+id/nav_adiestramiento"
-            android:icon="@drawable/ic_menu_adiestramiento"
+            android:id="@+id/nav_tiendas"
+            android:icon="@drawable/ic_menu_tienda"
             android:title="@string/menu_adiestramiento" />
 
         <item

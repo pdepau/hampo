@@ -21,19 +21,26 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.hampo.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class GpsActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int SOLICITUD_PERMISO_ACCESS_FINE_LOCATION = 0;
     private GoogleMap mapa;
+    MapView mMapView;
 
     public static void solicitarPermiso(final String permiso, String
             justificacion, final int requestCode, final Activity actividad) {
@@ -75,9 +82,22 @@ public class GpsActivity extends AppCompatActivity implements OnMapReadyCallback
             mapa.setMyLocationEnabled(true);
             mapa.getUiSettings().setZoomControlsEnabled(true);
             mapa.getUiSettings().setCompassEnabled(true);
+            Bundle extras = getIntent().getExtras();
+            Log.d("pepe",extras.getString("longitud").toString());
+
+
+            Float lat=Float.parseFloat(extras.getString("latitud"));
+            Float lon=Float.parseFloat(extras.getString("longitud"));
+            Log.d("tog",lat+"");
+            //LatLng sydney = new LatLng(lat, lon);
+            LatLng sydney = new LatLng(lat,lon);
+            mapa.addMarker(new MarkerOptions().position(sydney).title(extras.getString("nombre")));
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+            mapa.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
         } else {
             solicitarPermiso(Manifest.permission.ACCESS_FINE_LOCATION, "Sin el permiso" +
-                            " administrar llamadas no puedo borrar llamadas del registro.",
+                            " Loalización, no puedo geolocalizarte",
                     SOLICITUD_PERMISO_ACCESS_FINE_LOCATION, this);
         }
     }
@@ -89,7 +109,7 @@ public class GpsActivity extends AppCompatActivity implements OnMapReadyCallback
             if (grantResults.length == 1 &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 solicitarPermiso(Manifest.permission.ACCESS_FINE_LOCATION, "Sin el permiso" +
-                                " administrar llamadas no puedo borrar llamadas del registro.",
+                                " Loalización, no puedo geolocalizarte",
                         SOLICITUD_PERMISO_ACCESS_FINE_LOCATION, this);
             } else {
                 Toast.makeText(this, "Sin el permiso, no puedo realizar la " +
