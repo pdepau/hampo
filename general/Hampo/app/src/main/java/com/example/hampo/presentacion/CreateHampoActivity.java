@@ -81,6 +81,7 @@ public class CreateHampoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.VISIBLE);
+                findViewById(R.id.sombra1).setVisibility(View.VISIBLE);
             }
         });
 
@@ -90,6 +91,7 @@ public class CreateHampoActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
+                findViewById(R.id.sombra1).setVisibility(View.INVISIBLE);
             }
         });
         //Cuando clica sobre la imagen de galeria
@@ -99,6 +101,7 @@ public class CreateHampoActivity extends AppCompatActivity {
 
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 ponerDeGaleria(1);
+                findViewById(R.id.sombra1).setVisibility(View.INVISIBLE);
             }
         });
 
@@ -108,6 +111,7 @@ public class CreateHampoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 findViewById(R.id.cardSelectPicOptions).setVisibility(View.INVISIBLE);
                 uriUltimaFoto = manejadorFotoHampo();
+                findViewById(R.id.sombra1).setVisibility(View.INVISIBLE);
             }
         });
 
@@ -272,7 +276,7 @@ public class CreateHampoActivity extends AppCompatActivity {
                     }
                     String[] arrayRazas = new String[arrayListRazas.size()];
                     arrayRazas = arrayListRazas.toArray(arrayRazas);
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, arrayRazas);
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), /*android.R.layout.simple_spinner_item*/ R.layout.spinner_item, arrayRazas);
                     Spinner spinner = (Spinner) findViewById(R.id.spinnerRaza);
                     arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(arrayAdapter);
@@ -307,12 +311,6 @@ public class CreateHampoActivity extends AppCompatActivity {
         final StorageReference riversRef = mStorageRef.child("hampoimages/" + id + ".jpg");
         UploadTask uploadTask = riversRef.putFile(file);
 
-        if(file==null){
-            //Creo el hampo una vez tengo la uri de descargar (asincrona)
-            Hampo hampoToAdd = new Hampo(nombreEditText.getText().toString(), null, user.getUid(), String.valueOf(spinnerSelectedItem), sexOptionSelected.toString(), "300");
-            db.anade(hampoToAdd);
-            finish();
-        }
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
