@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -111,8 +110,8 @@ public class AdapterHamposFirestoreUI extends
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         id = auth.getUid();
-        Log.d("Pruebas", posicion+"");
-        Query lecturas = db.collection(id).document(getKey(posicion)).collection("Lecturas").orderBy("Fecha").limit(1);
+       // Log.d("Pruebas", posicion+"");
+        Query lecturas = db.collection(id).document(getKey(posicion)).collection("Lecturas").orderBy("fecha", Query.Direction.DESCENDING).limit(1);
         lecturas.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -123,21 +122,22 @@ public class AdapterHamposFirestoreUI extends
                             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                                 @Nullable FirebaseFirestoreException e) {
                                 if (e != null) {
-                                    Log.w("TAG", "Listen failed.", e);
+                                    Log.w("Pruebas", "Listen failed.", e);
                                     return;
                                 }
-                                Log.d("Pruebas", snapshot.getData().get("Temperatura").toString());
+
+                                Log.d("Pruebas", snapshot.getData().get("temperatura").toString());
                                 if (snapshot != null && snapshot.exists()) {
-                                    if (Integer.parseInt(snapshot.getData().get("Temperatura").toString()) < 10 ||
-                                            Integer.parseInt(snapshot.getData().get("Temperatura").toString()) > 30 ||
-                                            Integer.parseInt(snapshot.getData().get("Bebedero").toString()) < 30) {
+                                    if (Double.parseDouble(snapshot.getData().get("temperatura").toString()) < 10 ||
+                                            Double.parseDouble(snapshot.getData().get("temperatura").toString()) > 30 ||
+                                            Double.parseDouble(snapshot.getData().get("bebedero").toString()) < 30) {
                                         holder.notificacion.setBackgroundResource(R.drawable.not_yellow);
                                         holder.notificacion2.setBackgroundResource(R.drawable.not_yellow);
 
                                     }
-                                    if (Integer.parseInt(snapshot.getData().get("Temperatura").toString()) < 0 ||
-                                            Integer.parseInt(snapshot.getData().get("Temperatura").toString()) > 40 ||
-                                            Integer.parseInt(snapshot.getData().get("Bebedero").toString()) < 10) {
+                                    if (Double.parseDouble(snapshot.getData().get("temperatura").toString()) < 0 ||
+                                            Double.parseDouble(snapshot.getData().get("temperatura").toString()) > 40 ||
+                                            Double.parseDouble(snapshot.getData().get("bebedero").toString()) < 10) {
                                         if (pref.getBoolean("notificaciones", true)) {
                                             notificationManager = (NotificationManager)
                                                     context.getSystemService(NOTIFICATION_SERVICE);
@@ -162,22 +162,22 @@ public class AdapterHamposFirestoreUI extends
                                         holder.notificacion.setBackgroundResource(R.drawable.not_red);
                                         holder.notificacion2.setBackgroundResource(R.drawable.not_red);
                                     }
-                                    if (Integer.parseInt(snapshot.getData().get("Temperatura").toString()) >= 10 &&
-                                            Integer.parseInt(snapshot.getData().get("Temperatura").toString()) <= 30 &&
-                                            Integer.parseInt(snapshot.getData().get("Bebedero").toString()) >= 30) {
+                                    if (Double.parseDouble(snapshot.getData().get("temperatura").toString()) >= 10 &&
+                                            Double.parseDouble(snapshot.getData().get("temperatura").toString()) <= 30 &&
+                                            Double.parseDouble(snapshot.getData().get("bebedero").toString()) >= 30) {
                                         holder.notificacion.setBackgroundResource(R.drawable.not_green);
                                         holder.notificacion2.setBackgroundResource(R.drawable.not_green);
                                     }
                                     //Log.d("TAG", "Current data: " + snapshot.getData());
                                 } else {
-                                    Log.d("TAG", "Current data: null");
+                                    Log.d("Pruebas", "Current data: null");
                                 }
                             }
                         });
 
                     }
                 } else {
-                    Log.e("Firebase", "Error al leer", task.getException());
+                    Log.e("Pruebas", "Error al leer", task.getException());
                 }
             }
         });

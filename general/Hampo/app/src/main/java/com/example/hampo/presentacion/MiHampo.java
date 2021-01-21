@@ -238,7 +238,8 @@ public class MiHampo extends AppCompatActivity {
     private void actualizarBarras(String b) {
 
         int totalB = totalBebida.getWidth();
-        int porcentajeB = totalB * Integer.parseInt(b) / 100;
+        int algo = (int) Double.parseDouble(b);
+        int porcentajeB = totalB * algo / 100;
 
         ConstraintLayout.LayoutParams lpB = (ConstraintLayout.LayoutParams) progresoBebida.getLayoutParams();
         lpB.width = porcentajeB;
@@ -282,7 +283,8 @@ public class MiHampo extends AppCompatActivity {
     private void lanzarBorrar() {
         cuh.borrar(idJaula);
     }
-    public void confirmacionBorrado(){
+
+    public void confirmacionBorrado() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Borrado de hampo");

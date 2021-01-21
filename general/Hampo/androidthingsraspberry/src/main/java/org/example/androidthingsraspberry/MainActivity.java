@@ -70,8 +70,22 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
                     String aux2 = aux.split("#")[0];
                     texto.setText(aux2);
                     lectura = new Lectura(aux2.split("\"")[3], aux2.split("\"")[7], aux2.split("\"")[11], aux2.split("\"")[15], System.currentTimeMillis());
-
-                    Log.w(TAG, "Lectura : " + lectura.toString());
+                    // Add a new document with a generated ID
+                    db.collection("uVr9mrxy39VjxWiSDLGKWK58FZD3").document("cn6MIXXWdD15NqSMan1c").collection("Lecturas")
+                            .add(lectura)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                  //  Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
+                   // Log.w(TAG, "Lectura : " + lectura.toString());
                     aux = "";
                 } else {
                     aux += mensaje;
@@ -92,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
             e.printStackTrace();
         }
         crearConexionMQTT();
-        escucharDeTopicMQTT("hampo/texto");
+        escucharDeTopicMQTT("hampo/luz/on");
+        escucharDeTopicMQTT("hampo/luz/off");
     }
 
     public String leer() {
@@ -142,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                      //  Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -156,12 +171,12 @@ public class MainActivity extends AppCompatActivity implements MqttCallback {
     public void crearConexionMQTT() {
         try {
             Log.i(TAG, "Conectando al broker " + MQTT.broker);
-            client = new MqttClient(MQTT.broker, MQTT.clientId,
+            client = new MqttClient(MQTT.broker, "3453434535",
                     new MemoryPersistence());
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
-            connOpts.setKeepAliveInterval(60);
-            connOpts.setWill(topicRoot + "WillTopic", "App desconectada".getBytes(), MQTT.qos, false);
+            connOpts.setKeepAliveInterval(6000);
+            connOpts.setWill(topicRoot, "App desconectada".getBytes(), MQTT.qos, false);
             client.connect(connOpts);
         } catch (MqttException e) {
             Log.e(TAG, "Error al conectar.", e);

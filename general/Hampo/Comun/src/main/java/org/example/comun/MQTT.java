@@ -8,6 +8,6 @@ public class MQTT {
     public static final int qos = 1;
     public static final String broker = "tcp://test.mosquitto.org:1883";
     //public static final String broker = "tcp://mqtt.eclipse.org:1883";broker.emqx.io
-    public static final String clientId = "696969";
+    public static final String clientId = "67893045";
     //Reemplaza ClientId con un valor diferente
 }

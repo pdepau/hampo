@@ -80,7 +80,7 @@ void TimerConfig() {
   // Configuracion Timer0
   timer0 = timerBegin(0, TIMER_DIVIDER, true); // = 1uS
   timerAttachInterrupt(timer0, &ISR_Timer0, true);
-  timerAlarmWrite(timer0, 1000000, true); //cada 1s
+  timerAlarmWrite(timer0, 2000000, true); //cada 1s
   timerAlarmEnable(timer0);
 }
 
@@ -204,13 +204,14 @@ void loop () {
   if (Serial2.available()) { //Si está disponible
     char c = Serial2.read(); //Guardamos la lectura en una variable char
     if (c == 'H') { //Si es una 'H', enciendo el LED
-      Serial2.println("ON");
       digitalWrite(LedPin, HIGH);
+      Serial.print("on");
     } else if (c == 'L') { //Si es una 'L', apago el LED
-      Serial2.println("OFF");
       digitalWrite(LedPin, LOW);
+      Serial.print("of");
     } else {
       Serial2.println("kk");
+      
     }
   }
 
